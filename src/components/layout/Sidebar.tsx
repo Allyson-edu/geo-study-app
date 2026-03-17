@@ -1,25 +1,28 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import {
+  Menu, X,
+  Home, BookOpen, GraduationCap, BookMarked, Target, Map,
+} from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface NavItem {
   to: string
-  emoji: string
+  icon: React.ReactNode
   label: string
   iconClass: string
 }
 
 const mainItems: NavItem[] = [
-  { to: '/', emoji: '🏠', label: 'Dashboard', iconClass: 'blue' },
-  { to: '/pre-curso', emoji: '📚', label: 'Pré-Curso', iconClass: 'jade' },
-  { to: '/graduacao', emoji: '🎓', label: 'Graduação', iconClass: 'purple' },
+  { to: '/',          icon: <Home size={16} />,          label: 'Dashboard',  iconClass: 'blue'   },
+  { to: '/pre-curso', icon: <BookOpen size={16} />,      label: 'Pré-Curso',  iconClass: 'teal'   },
+  { to: '/graduacao', icon: <GraduationCap size={16} />, label: 'Graduação',  iconClass: 'violet' },
 ]
 
 const toolItems: NavItem[] = [
-  { to: '/diario', emoji: '📖', label: 'Diário de Estudos', iconClass: 'amber' },
-  { to: '/foco', emoji: '🎯', label: 'Modo Foco', iconClass: 'terra' },
-  { to: '/mapa', emoji: '🗺️', label: 'Mapa de Progresso', iconClass: 'jade' },
+  { to: '/diario', icon: <BookMarked size={16} />, label: 'Diário de Estudos',  iconClass: 'amber' },
+  { to: '/foco',   icon: <Target size={16} />,     label: 'Modo Foco',          iconClass: 'red'   },
+  { to: '/mapa',   icon: <Map size={16} />,        label: 'Mapa de Progresso',  iconClass: 'teal'  },
 ]
 
 function NavSection({ title, items, onClose }: { title: string; items: NavItem[]; onClose: () => void }) {
@@ -31,7 +34,7 @@ function NavSection({ title, items, onClose }: { title: string; items: NavItem[]
       >
         {title}
       </p>
-      {items.map(({ to, emoji, label, iconClass }) => (
+      {items.map(({ to, icon, label, iconClass }) => (
         <NavLink
           key={to}
           to={to}
@@ -42,9 +45,9 @@ function NavSection({ title, items, onClose }: { title: string; items: NavItem[]
           {({ isActive }) => (
             <>
               <span className={`nav-icon${isActive ? '' : ` ${iconClass}`}`}>
-                {emoji}
+                {icon}
               </span>
-              <span className="flex-1">{label}</span>
+              <span className="flex-1 text-[13px]">{label}</span>
             </>
           )}
         </NavLink>
@@ -58,21 +61,21 @@ export default function Sidebar() {
 
   const content = (
     <div className="flex flex-col h-full py-5 px-3">
-      {/* Logo */}
+      {/* Logo — "G" em quadrado + texto */}
       <div className="flex items-center gap-2.5 px-2 mb-5">
         <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0"
-          style={{ background: 'var(--grad-primary)', boxShadow: '0 4px 15px rgba(46,134,222,0.4)' }}
+          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-sm"
+          style={{ background: 'var(--accent-blue)', color: '#ffffff', boxShadow: '0 2px 12px rgba(91,141,239,0.4)' }}
         >
-          🌍
+          G
         </div>
-        <span className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>
+        <span className="font-bold text-[15px]" style={{ color: 'var(--text-primary)' }}>
           GeoStudy
         </span>
       </div>
 
       {/* Separador */}
-      <div className="h-px mb-4" style={{ background: 'var(--border-default)' }} />
+      <div className="h-px mb-4" style={{ background: 'var(--border)' }} />
 
       {/* Navegação */}
       <nav className="flex-1 overflow-y-auto">
@@ -80,19 +83,24 @@ export default function Sidebar() {
         <NavSection title="Ferramentas" items={toolItems} onClose={() => setOpen(false)} />
       </nav>
 
-      {/* Card usuário */}
+      {/* Card usuário — nome + sublabel Pré-Curso */}
       <div
         className="mt-2 px-3 py-3 rounded-xl"
         style={{
-          background: 'var(--card-purple)',
-          border: '1px solid var(--border-purple)',
+          background: 'rgba(91,141,239,0.07)',
+          border: '1px solid var(--border)',
         }}
       >
         <div className="flex items-center gap-2.5">
-          <span className="text-xl shrink-0">💎</span>
+          <div
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0"
+            style={{ background: 'var(--accent-teal)' }}
+          >
+            A
+          </div>
           <div>
             <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Allyson</p>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Nível 1</p>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Pré-Curso</p>
           </div>
         </div>
       </div>
@@ -103,7 +111,7 @@ export default function Sidebar() {
     <>
       {/* Sidebar desktop */}
       <aside
-        className="hidden md:flex flex-col w-60 shrink-0 sidebar-glass"
+        className="hidden md:flex flex-col w-56 shrink-0 sidebar-glass"
         style={{ minHeight: '100vh' }}
       >
         {content}
@@ -113,8 +121,8 @@ export default function Sidebar() {
       <button
         className="md:hidden fixed top-3 left-3 z-50 p-2 rounded-xl border"
         style={{
-          background: 'var(--bg-secondary)',
-          borderColor: 'var(--border-default)',
+          background: 'var(--bg-surface)',
+          borderColor: 'var(--border)',
           boxShadow: 'var(--shadow-card)',
         }}
         onClick={() => setOpen(!open)}
@@ -135,11 +143,11 @@ export default function Sidebar() {
               onClick={() => setOpen(false)}
             />
             <motion.aside
-              initial={{ x: -240 }}
+              initial={{ x: -224 }}
               animate={{ x: 0 }}
-              exit={{ x: -240 }}
+              exit={{ x: -224 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="md:hidden fixed left-0 top-0 bottom-0 z-50 w-60 sidebar-glass"
+              className="md:hidden fixed left-0 top-0 bottom-0 z-50 w-56 sidebar-glass"
             >
               {content}
             </motion.aside>
