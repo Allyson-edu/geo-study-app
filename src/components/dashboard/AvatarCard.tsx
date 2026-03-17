@@ -6,6 +6,7 @@ const CrystalSVG = () => (
     width="110"
     height="130"
     viewBox="0 0 110 130"
+    className="float-anim"
     style={{ filter: 'drop-shadow(0 12px 28px rgba(168,85,247,0.55)) drop-shadow(0 0 8px rgba(74,158,255,0.3))' }}
   >
     <defs>
@@ -18,11 +19,7 @@ const CrystalSVG = () => (
         <stop offset="0%"   stopColor="rgba(255,255,255,0.35)" />
         <stop offset="100%" stopColor="rgba(255,255,255,0)" />
       </linearGradient>
-      <linearGradient id="cg3" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%"   stopColor="#C084FC" />
-        <stop offset="100%" stopColor="#6366F1" />
-      </linearGradient>
-      <filter id="glow">
+      <filter id="crystalGlow">
         <feGaussianBlur stdDeviation="3" result="blur" />
         <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
@@ -34,7 +31,7 @@ const CrystalSVG = () => (
     {/* Corpo principal do cristal */}
     <polygon points="55,6 95,32 95,92 55,118 15,92 15,32" fill="url(#cg1)" opacity="0.97" />
 
-    {/* Faceta direita mais escura — profundidade */}
+    {/* Faceta direita — profundidade */}
     <polygon points="55,6 95,32 95,92 55,62" fill="rgba(0,0,0,0.18)" />
 
     {/* Faceta esquerda clara */}
@@ -49,13 +46,10 @@ const CrystalSVG = () => (
     {/* Brilho pequeno */}
     <polygon points="38,18 50,13 53,22 41,26" fill="rgba(255,255,255,0.6)" opacity="0.7" />
 
-    {/* Aresta superior esquerda — brilhante */}
+    {/* Arestas */}
     <line x1="55" y1="6" x2="15" y2="32" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" />
-    {/* Aresta superior direita — mais discreta */}
     <line x1="55" y1="6" x2="95" y2="32" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-    {/* Cintura esquerda */}
     <line x1="15" y1="32" x2="15" y2="92" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-    {/* Cintura direita */}
     <line x1="95" y1="32" x2="95" y2="92" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
 
     {/* Ponto de brilho animado */}
@@ -65,3 +59,61 @@ const CrystalSVG = () => (
     </circle>
   </svg>
 )
+
+interface AvatarCardProps {
+  level: number
+  xp: number
+  preCoursePercent?: number
+  preCourseCompleted?: number
+  preCourseTotal?: number
+}
+
+export default function AvatarCard({
+  level,
+  preCoursePercent = 0,
+  preCourseCompleted = 0,
+  preCourseTotal = 6,
+}: AvatarCardProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="card-btn variant-purple rounded-2xl p-6 flex flex-col items-center gap-3"
+    >
+      {/* Cristal SVG animado */}
+      <div className="w-36 h-36 flex items-center justify-center">
+        <CrystalSVG />
+      </div>
+
+      {/* Nome em gradiente */}
+      <div className="text-center">
+        <p className="font-bold text-lg text-grad">Allyson</p>
+        <p className="text-xs font-medium mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+          Nível {level}
+        </p>
+      </div>
+
+      {/* Barra de progresso Pré-Curso */}
+      <div className="w-full">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>
+            Pré-Curso
+          </span>
+          <span className="text-xs font-bold text-grad-jade">
+            {Math.round(preCoursePercent)}% concluído
+          </span>
+        </div>
+        <div className="progress-track">
+          <div
+            className="progress-fill jade"
+            style={{ width: `${Math.round(preCoursePercent)}%` }}
+          />
+        </div>
+        <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+          {preCourseCompleted} de {preCourseTotal} disciplinas
+        </p>
+      </div>
+    </motion.div>
+  )
+}
