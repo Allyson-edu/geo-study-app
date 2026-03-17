@@ -23,7 +23,7 @@ export function xpProgress(xp: number): number {
 export function getAvatarTitle(level: number): string {
   const titles = [
     '', // 0 index não usado
-    'Calouro Curioso',
+    'Explorador Iniciante',
     'Explorador de Fórmulas',
     'Calculista Iniciante',
     'Algebrista Aprendiz',

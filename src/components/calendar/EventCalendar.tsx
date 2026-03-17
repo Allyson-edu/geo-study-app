@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, Trash2, Plus, X, Calendar } from 'lucide-react'
+import { Star, Trash2, Plus, X } from 'lucide-react'
 import { useCalendarStore, type CalendarEvent } from '@/store/calendarStore'
 
 // Calcula dias/horas/minutos até uma data (usa hora local — correto para app pessoal)
@@ -186,32 +186,18 @@ export default function EventCalendar() {
   const otherEvents = events.filter((e) => !e.isFeatured)
 
   return (
-    <div
-      className="rounded-2xl p-5"
-      style={{
-        background: 'var(--bg-card)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid var(--border-color)',
-        boxShadow: 'var(--shadow-card)',
-      }}
-    >
+    <div className="card-btn variant-amber rounded-2xl p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Calendar size={18} style={{ color: 'var(--accent-blue)' }} />
+          <span style={{ color: 'var(--geo-amber)' }}>📅</span>
           <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
             Calendário de Eventos
           </h3>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg font-medium"
-          style={{
-            background: 'var(--gradient-primary)',
-            color: 'white',
-            boxShadow: 'var(--shadow-glow-blue)',
-          }}
+          className="btn-amber flex items-center gap-1 text-xs px-2.5 py-1.5"
         >
           <Plus size={13} /> Adicionar
         </button>
@@ -241,8 +227,8 @@ export default function EventCalendar() {
               {timeUntil ? (
                 <>
                   <motion.p
-                    className="font-bold"
-                    style={{ fontSize: 48, lineHeight: 1, color: featured.color }}
+                    className="font-bold text-grad-amber"
+                    style={{ fontSize: 48, lineHeight: 1 }}
                     animate={{ opacity: [0.8, 1, 0.8] }}
                     transition={{ duration: 3, repeat: Infinity }}
                   >
