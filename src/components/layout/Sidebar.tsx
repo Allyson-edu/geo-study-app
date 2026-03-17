@@ -1,74 +1,50 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import {
-  LayoutDashboard,
-  BookOpen,
-  GraduationCap,
-  BookHeart,
-  Zap,
-  Map,
-  Menu,
-  X,
-} from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface NavItem {
   to: string
-  icon: React.ElementType
+  emoji: string
   label: string
-  badge?: string
+  iconClass: string
 }
 
 const mainItems: NavItem[] = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/pre-curso', icon: BookOpen, label: 'Pré-Curso' },
-  { to: '/graduacao', icon: GraduationCap, label: 'Graduação' },
+  { to: '/', emoji: '🏠', label: 'Dashboard', iconClass: 'blue' },
+  { to: '/pre-curso', emoji: '📚', label: 'Pré-Curso', iconClass: 'jade' },
+  { to: '/graduacao', emoji: '🎓', label: 'Graduação', iconClass: 'purple' },
 ]
 
 const toolItems: NavItem[] = [
-  { to: '/diario', icon: BookHeart, label: 'Diário de Estudos', badge: 'NOVO' },
-  { to: '/foco', icon: Zap, label: 'Modo Foco', badge: 'NOVO' },
-  { to: '/mapa', icon: Map, label: 'Mapa de Progresso', badge: 'NOVO' },
+  { to: '/diario', emoji: '📖', label: 'Diário de Estudos', iconClass: 'amber' },
+  { to: '/foco', emoji: '🎯', label: 'Modo Foco', iconClass: 'terra' },
+  { to: '/mapa', emoji: '🗺️', label: 'Mapa de Progresso', iconClass: 'jade' },
 ]
 
 function NavSection({ title, items, onClose }: { title: string; items: NavItem[]; onClose: () => void }) {
   return (
     <div className="mb-4">
       <p
-        className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest"
-        style={{ color: 'var(--text-tertiary)' }}
+        className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest"
+        style={{ color: 'var(--text-muted)' }}
       >
         {title}
       </p>
-      {items.map(({ to, icon: Icon, label, badge }) => (
+      {items.map(({ to, emoji, label, iconClass }) => (
         <NavLink
           key={to}
           to={to}
           end={to === '/'}
           onClick={onClose}
-          className={({ isActive }) =>
-            isActive
-              ? 'sidebar-active flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 transition-all duration-200'
-              : 'flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 transition-all duration-200 hover:bg-[var(--bg-tertiary)]'
-          }
-          style={({ isActive }) =>
-            isActive ? {} : { color: 'var(--text-secondary)' }
-          }
+          className={({ isActive }) => `nav-item mb-0.5${isActive ? ' active' : ''}`}
         >
           {({ isActive }) => (
             <>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Icon size={18} style={isActive ? { color: 'white' } : {}} />
-              </motion.div>
-              <span
-                className="text-sm font-medium flex-1"
-                style={isActive ? { color: 'white' } : {}}
-              >
-                {label}
+              <span className={`nav-icon${isActive ? '' : ` ${iconClass}`}`}>
+                {emoji}
               </span>
-              {badge && !isActive && (
-                <span className="badge-new">{badge}</span>
-              )}
+              <span className="flex-1">{label}</span>
             </>
           )}
         </NavLink>
@@ -83,10 +59,10 @@ export default function Sidebar() {
   const content = (
     <div className="flex flex-col h-full py-5 px-3">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-2 mb-6">
+      <div className="flex items-center gap-2.5 px-2 mb-5">
         <div
           className="w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0"
-          style={{ background: 'var(--gradient-primary)', boxShadow: 'var(--shadow-glow-blue)' }}
+          style={{ background: 'var(--grad-primary)', boxShadow: '0 4px 15px rgba(46,134,222,0.4)' }}
         >
           🌍
         </div>
@@ -96,32 +72,27 @@ export default function Sidebar() {
       </div>
 
       {/* Separador */}
-      <div className="h-px mb-4" style={{ background: 'var(--border-color)' }} />
+      <div className="h-px mb-4" style={{ background: 'var(--border-default)' }} />
 
       {/* Navegação */}
       <nav className="flex-1 overflow-y-auto">
-        <NavSection title="Menu Principal" items={mainItems} onClose={() => setOpen(false)} />
+        <NavSection title="Principal" items={mainItems} onClose={() => setOpen(false)} />
         <NavSection title="Ferramentas" items={toolItems} onClose={() => setOpen(false)} />
       </nav>
 
-      {/* Avatar resumido */}
+      {/* Card usuário */}
       <div
         className="mt-2 px-3 py-3 rounded-xl"
         style={{
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border-color)',
+          background: 'var(--card-purple)',
+          border: '1px solid var(--border-purple)',
         }}
       >
         <div className="flex items-center gap-2.5">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
-            style={{ background: 'var(--gradient-primary)' }}
-          >
-            A
-          </div>
+          <span className="text-xl shrink-0">💎</span>
           <div>
             <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Allyson</p>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Nível 1 · Calouro</p>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Nível 1</p>
           </div>
         </div>
       </div>
@@ -132,7 +103,7 @@ export default function Sidebar() {
     <>
       {/* Sidebar desktop */}
       <aside
-        className="hidden md:flex flex-col w-60 shrink-0 glass-sidebar"
+        className="hidden md:flex flex-col w-60 shrink-0 sidebar-glass"
         style={{ minHeight: '100vh' }}
       >
         {content}
@@ -143,7 +114,7 @@ export default function Sidebar() {
         className="md:hidden fixed top-3 left-3 z-50 p-2 rounded-xl border"
         style={{
           background: 'var(--bg-secondary)',
-          borderColor: 'var(--border-color)',
+          borderColor: 'var(--border-default)',
           boxShadow: 'var(--shadow-card)',
         }}
         onClick={() => setOpen(!open)}
@@ -168,7 +139,7 @@ export default function Sidebar() {
               animate={{ x: 0 }}
               exit={{ x: -240 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="md:hidden fixed left-0 top-0 bottom-0 z-50 w-60 glass-sidebar"
+              className="md:hidden fixed left-0 top-0 bottom-0 z-50 w-60 sidebar-glass"
             >
               {content}
             </motion.aside>

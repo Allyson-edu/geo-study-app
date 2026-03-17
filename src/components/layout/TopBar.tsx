@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import { Sun, Moon, Flame, Zap } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useThemeStore } from '@/store/themeStore'
 
@@ -20,48 +20,22 @@ export default function TopBar() {
 
   return (
     <header
-      className="flex items-center justify-between px-6 sticky top-0 z-30"
-      style={{
-        height: 56,
-        background: 'var(--bg-sidebar)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid var(--border-color)',
-      }}
+      className="topbar flex items-center justify-between px-6 sticky top-0 z-30"
+      style={{ height: 56 }}
     >
-      <h1 className="text-base font-bold text-[var(--text-primary)]">{title}</h1>
+      <h1 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>{title}</h1>
 
       <div className="flex items-center gap-3">
-        {/* Badge streak */}
-        <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
-          style={{
-            background: 'rgba(255,159,10,0.15)',
-            border: '1px solid rgba(255,159,10,0.35)',
-            color: '#FF9F0A',
-          }}
-        >
-          <Flame size={15} className="fire-icon" />
+        {/* Streak badge */}
+        <div className="streak-badge">
+          <span className="fire-anim">🔥</span>
           <span>0 dias</span>
-        </div>
-
-        {/* Badge XP */}
-        <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
-          style={{
-            background: 'rgba(10,132,255,0.15)',
-            border: '1px solid rgba(10,132,255,0.35)',
-            color: '#0A84FF',
-          }}
-        >
-          <Zap size={15} />
-          <span>0 XP</span>
         </div>
 
         {/* Toggle dark/light */}
         <motion.button
           onClick={toggle}
-          className="p-2 rounded-xl transition-colors"
+          className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
           style={{ background: 'var(--bg-tertiary)', color: 'var(--text-secondary)' }}
           whileTap={{ scale: 0.9 }}
           aria-label="Alternar tema"
