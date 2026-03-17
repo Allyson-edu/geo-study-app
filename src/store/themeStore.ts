@@ -2,20 +2,27 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface ThemeState {
-  isDark: boolean
+  isLight: boolean
   toggle: () => void
 }
 
 export const useThemeStore = create<ThemeState>()(
   persist(
-    (set) => ({
-      isDark: true,
-      toggle: () => set((s) => {
-        const newDark = !s.isDark
-        document.documentElement.classList.toggle('dark', newDark)
-        return { isDark: newDark }
-      }),
+    (set, get) => ({
+      isLight: false,
+      toggle: () => {
+        const newIsLight = !get().isLight
+        document.documentElement.classList.toggle('light', newIsLight)
+        set({ isLight: newIsLight })
+      },
     }),
-    { name: 'geo-study-theme' }
+    {
+      name: 'geo-study-theme',
+      onRehydrateStorage: () => (state) => {
+        if (state?.isLight) {
+          document.documentElement.classList.add('light')
+        }
+      },
+    }
   )
 )
