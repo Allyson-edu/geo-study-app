@@ -7,44 +7,71 @@ const ROUTE_TITLES: Record<string, string> = {
   '/': 'Dashboard',
   '/pre-curso': 'Pré-Curso',
   '/graduacao': 'Graduação',
+  '/diario': 'Diário de Estudos',
+  '/foco': 'Modo Foco',
+  '/mapa': 'Mapa de Progresso',
 }
 
 export default function TopBar() {
   const { pathname } = useLocation()
-  const { isDark, toggle } = useThemeStore()
+  const { isLight, toggle } = useThemeStore()
 
   const title = ROUTE_TITLES[pathname] ?? 'GeoStudy'
 
   return (
-    <header className="flex items-center justify-between px-6 py-3 border-b border-[var(--border-color)] bg-[var(--bg-secondary)]/80 backdrop-blur-md sticky top-0 z-30">
-      <h1 className="text-lg font-bold text-[var(--text-primary)]">{title}</h1>
+    <header
+      className="flex items-center justify-between px-6 sticky top-0 z-30"
+      style={{
+        height: 56,
+        background: 'var(--bg-sidebar)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid var(--border-color)',
+      }}
+    >
+      <h1 className="text-base font-bold text-[var(--text-primary)]">{title}</h1>
 
       <div className="flex items-center gap-3">
-        {/* Streak badge */}
-        <div className="flex items-center gap-1.5 bg-orange-500/10 text-orange-500 px-3 py-1.5 rounded-full text-sm font-semibold">
-          <Flame size={16} className="pulse-fire" />
+        {/* Badge streak */}
+        <div
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
+          style={{
+            background: 'rgba(255,159,10,0.15)',
+            border: '1px solid rgba(255,159,10,0.35)',
+            color: '#FF9F0A',
+          }}
+        >
+          <Flame size={15} className="fire-icon" />
           <span>0 dias</span>
         </div>
 
-        {/* XP badge */}
-        <div className="flex items-center gap-1.5 bg-bigsur-blue/10 text-bigsur-blue px-3 py-1.5 rounded-full text-sm font-semibold">
-          <Zap size={16} />
+        {/* Badge XP */}
+        <div
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
+          style={{
+            background: 'rgba(10,132,255,0.15)',
+            border: '1px solid rgba(10,132,255,0.35)',
+            color: '#0A84FF',
+          }}
+        >
+          <Zap size={15} />
           <span>0 XP</span>
         </div>
 
         {/* Toggle dark/light */}
         <motion.button
           onClick={toggle}
-          className="p-2 rounded-xl bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+          className="p-2 rounded-xl transition-colors"
+          style={{ background: 'var(--bg-tertiary)', color: 'var(--text-secondary)' }}
           whileTap={{ scale: 0.9 }}
           aria-label="Alternar tema"
         >
           <motion.div
             initial={false}
-            animate={{ rotate: isDark ? 0 : 180, scale: 1 }}
+            animate={{ rotate: isLight ? 180 : 0 }}
             transition={{ type: 'spring', stiffness: 200 }}
           >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            {isLight ? <Moon size={18} /> : <Sun size={18} />}
           </motion.div>
         </motion.button>
       </div>

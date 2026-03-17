@@ -2,37 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ==========================================
-   Variáveis de tema — claro e escuro
-   ========================================== */
+/* ===== DARK THEME (padrão) ===== */
 :root {
-  --bg-primary: #F2F2F7;
-  --bg-secondary: #FFFFFF;
-  --bg-tertiary: #E5E5EA;
-  --text-primary: #1C1C1E;
-  --text-secondary: #636366;
-  --text-tertiary: #8E8E93;
-  --border-color: rgba(0, 0, 0, 0.1);
-  --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.dark {
   --bg-primary: #1C1C1E;
   --bg-secondary: #2C2C2E;
   --bg-tertiary: #3A3A3C;
-  --text-primary: #F2F2F7;
-  --text-secondary: #AEAEB2;
-  --text-tertiary: #636366;
-  --border-color: rgba(255, 255, 255, 0.08);
+  --bg-card: rgba(44, 44, 46, 0.85);
+  --bg-sidebar: rgba(28, 28, 30, 0.92);
+
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-tertiary: rgba(255, 255, 255, 0.35);
+
+  --border-color: rgba(255, 255, 255, 0.09);
+  --border-color-hover: rgba(255, 255, 255, 0.18);
+
+  --accent-blue: #0A84FF;
+  --accent-purple: #BF5AF2;
+  --accent-orange: #FF9F0A;
+  --accent-green: #30D158;
+  --accent-pink: #FF375F;
+  --accent-teal: #5AC8FA;
+
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow-blue: 0 4px 20px rgba(10, 132, 255, 0.45);
+  --shadow-glow-purple: 0 4px 20px rgba(191, 90, 242, 0.4);
+
+  --gradient-primary: linear-gradient(135deg, #0A84FF 0%, #BF5AF2 100%);
+  --gradient-warm: linear-gradient(135deg, #FF9F0A 0%, #FF375F 100%);
+  --gradient-cool: linear-gradient(135deg, #5AC8FA 0%, #30D158 100%);
+
   --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* ==========================================
-   Base
-   ========================================== */
-* {
-  box-sizing: border-box;
+/* ===== LIGHT THEME ===== */
+html.light {
+  --bg-primary: #F2F2F7;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #E5E5EA;
+  --bg-card: rgba(255, 255, 255, 0.92);
+  --bg-sidebar: rgba(242, 242, 247, 0.92);
+
+  --text-primary: #1C1C1E;
+  --text-secondary: #636366;
+  --text-tertiary: #AEAEB2;
+
+  --border-color: rgba(0, 0, 0, 0.07);
+  --border-color-hover: rgba(0, 0, 0, 0.15);
+
+  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.09);
+  --shadow-glow-blue: 0 4px 20px rgba(10, 132, 255, 0.3);
+  --shadow-glow-purple: 0 4px 20px rgba(191, 90, 242, 0.25);
+
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
+
+/* ===== BASE ===== */
+* { box-sizing: border-box; }
 
 body {
   background-color: var(--bg-primary);
@@ -43,37 +69,23 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ==========================================
-   Scrollbar customizada estilo macOS
-   ========================================== */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(142, 142, 147, 0.4);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(142, 142, 147, 0.7);
-}
-
-/* ==========================================
-   Glassmorphism
-   ========================================== */
+/* ===== GLASSMORPHISM ===== */
 .glass {
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
 }
 
+.glass-sidebar {
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid var(--border-color);
+}
+
+/* Compatibilidade retroativa */
 .glass-light {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -88,14 +100,72 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ==========================================
-   Animação shimmer para XP bar
-   ========================================== */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+/* ===== CARDS ===== */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s ease;
 }
 
+.card:hover {
+  border-color: var(--border-color-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card), 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== BOTÕES ===== */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow-blue);
+  transition: all 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(10, 132, 255, 0.6);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background: var(--bg-card);
+  border-color: var(--accent-blue);
+}
+
+/* ===== XP BAR SHIMMER ===== */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.xp-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.xp-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2.5s infinite;
+}
+
+/* Compatibilidade retroativa */
 .shimmer {
   background: linear-gradient(
     90deg,
@@ -107,22 +177,89 @@ body {
   animation: shimmer 2s linear infinite;
 }
 
-/* ==========================================
-   Animação de pulso para streak
-   ========================================== */
+/* ===== PIXEL ART ===== */
+.pixel-art, .pixel-art * {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ===== SIDEBAR ITEM ATIVO ===== */
+.sidebar-active {
+  background: var(--gradient-primary) !important;
+  box-shadow: var(--shadow-glow-blue);
+  color: white !important;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* ===== TEXTO COM GLOW ===== */
+.glow-text-blue {
+  color: var(--accent-blue);
+  text-shadow: 0 0 20px rgba(10, 132, 255, 0.5);
+}
+.glow-text-purple {
+  color: var(--accent-purple);
+  text-shadow: 0 0 20px rgba(191, 90, 242, 0.5);
+}
+
+/* ===== ANIMAÇÃO DE FOGO (streak) ===== */
+@keyframes fire-pulse {
+  0%, 100% { transform: scale(1) rotate(-3deg); filter: drop-shadow(0 0 6px rgba(255, 159, 10, 0.6)); }
+  50% { transform: scale(1.15) rotate(3deg); filter: drop-shadow(0 0 12px rgba(255, 159, 10, 0.9)); }
+}
+.fire-icon { animation: fire-pulse 1.5s ease-in-out infinite; }
+
+/* Compatibilidade retroativa */
 @keyframes pulse-fire {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.15); }
 }
+.pulse-fire { animation: pulse-fire 1.5s ease-in-out infinite; }
 
-.pulse-fire {
-  animation: pulse-fire 1.5s ease-in-out infinite;
+/* ===== LEVEL UP ===== */
+@keyframes level-up {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.4) rotate(5deg); filter: drop-shadow(0 0 20px gold); }
+  60% { transform: scale(1.2) rotate(-5deg); filter: drop-shadow(0 0 30px gold); }
+  100% { transform: scale(1); filter: none; }
+}
+.level-up-anim { animation: level-up 1s ease forwards; }
+
+/* ===== GRADIENTES DE FUNDO ===== */
+.gradient-blue-purple { background: linear-gradient(135deg, #0A84FF22 0%, #BF5AF222 100%); }
+.gradient-orange-pink { background: linear-gradient(135deg, #FF9F0A22 0%, #FF375F22 100%); }
+.gradient-green-teal { background: linear-gradient(135deg, #30D15822 0%, #5AC8FA22 100%); }
+
+/* ===== BADGE NOVO ===== */
+.badge-new {
+  background: var(--gradient-warm);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(255, 159, 10, 0.4);
 }
 
-/* ==========================================
-   Pixel art
-   ========================================== */
-.pixel-art {
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+/* ===== PARTÍCULAS DO FOCO ===== */
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.15; }
+  33% { transform: translateY(-30px) translateX(10px) scale(1.1); opacity: 0.3; }
+  66% { transform: translateY(-15px) translateX(-8px) scale(0.9); opacity: 0.1; }
+}
+
+/* ===== BREATHE (idle) ===== */
+@keyframes breathe {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.97); }
 }

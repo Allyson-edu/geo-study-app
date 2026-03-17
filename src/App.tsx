@@ -7,12 +7,21 @@ import Dashboard from '@/pages/Dashboard'
 import PreCourse from '@/pages/PreCourse'
 import Graduation from '@/pages/Graduation'
 import DisciplineDetail from '@/pages/DisciplineDetail'
+import StudyDiary from '@/pages/StudyDiary'
+import FocusMode from '@/pages/FocusMode'
+import ProgressMap from '@/pages/ProgressMap'
 
 export default function App() {
   const location = useLocation()
+  const isFocusMode = location.pathname === '/foco'
+
+  // FocusMode: tela cheia sem sidebar/topbar
+  if (isFocusMode) {
+    return <FocusMode />
+  }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[var(--bg-primary)]">
+    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
       {/* Sidebar */}
       <Sidebar />
 
@@ -27,6 +36,8 @@ export default function App() {
               <Route path="/pre-curso" element={<PreCourse />} />
               <Route path="/graduacao" element={<Graduation />} />
               <Route path="/disciplina/:id" element={<DisciplineDetail />} />
+              <Route path="/diario" element={<StudyDiary />} />
+              <Route path="/mapa" element={<ProgressMap />} />
             </Routes>
           </AnimatePresence>
         </main>

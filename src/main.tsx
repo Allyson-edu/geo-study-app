@@ -17,10 +17,10 @@ const queryClient = new QueryClient({
 
 // Aplica o tema salvo imediatamente antes do render
 function ThemeInitializer({ children }: { children: React.ReactNode }) {
-  const isDark = useThemeStore((s) => s.isDark)
+  const isLight = useThemeStore((s) => s.isLight)
   React.useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDark)
-  }, [isDark])
+    document.documentElement.classList.toggle('light', isLight)
+  }, [isLight])
   return <>{children}</>
 }
 
