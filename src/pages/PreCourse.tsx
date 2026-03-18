@@ -27,6 +27,7 @@ export default function PreCourse() {
   const preDisciplines = disciplines.filter((d) => d.semester === 'pre')
   const getDisciplineProgress = useStudyStore((s) => s.getDisciplineProgress)
   const getLessonProgress = useStudyStore((s) => s.getLessonProgress)
+  const completeLesson = useStudyStore((s) => s.completeLesson)
 
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [quizLesson, setQuizLesson] = useState<{ lesson: Lesson; discipline: Discipline } | null>(null)
@@ -167,13 +168,25 @@ export default function PreCourse() {
                               }}
                             >
                               {/* Status icon */}
-                              <div style={{ flexShrink: 0 }}>
+                              <button
+                                onClick={() => { if (!isCompleted) completeLesson(discipline.id, lesson.id) }}
+                                style={{
+                                  flexShrink: 0,
+                                  background: 'none',
+                                  border: 'none',
+                                  padding: 0,
+                                  cursor: isCompleted ? 'default' : 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                                aria-label={isCompleted ? 'Aula concluída' : 'Marcar como concluída'}
+                              >
                                 {isCompleted ? (
                                   <CheckCircle size={18} style={{ color: '#1A4DAB' }} />
                                 ) : (
                                   <div style={{ width: 18, height: 18, border: '2px solid #D0CCC4' }} />
                                 )}
-                              </div>
+                              </button>
 
                               {/* Lesson info */}
                               <div style={{ flex: 1, minWidth: 0 }}>

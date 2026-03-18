@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   Menu, X,
-  Home, BookOpen, GraduationCap, BookMarked, Target, Map,
+  Home, BookOpen, GraduationCap, BookMarked, Target,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -23,7 +23,6 @@ const mainItems: NavItem[] = [
 const toolItems: NavItem[] = [
   { to: '/diario', icon: <BookMarked size={16} />, label: 'Diário de Estudos', activeColor: '#D62B2B', inactiveColor: '#F5C400' },
   { to: '/foco',   icon: <Target size={16} />,     label: 'Modo Foco',         activeColor: '#D62B2B', inactiveColor: '#D62B2B' },
-  { to: '/mapa',   icon: <Map size={16} />,        label: 'Mapa de Progresso', activeColor: '#D62B2B', inactiveColor: '#1A4DAB' },
 ]
 
 function NavSection({ title, items, onClose }: { title: string; items: NavItem[]; onClose: () => void }) {

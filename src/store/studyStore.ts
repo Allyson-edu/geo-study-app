@@ -32,7 +32,7 @@ interface StudyStore {
   getDaysSinceStudied: () => number
   getDisciplineProgress: (disciplineId: string) => number
   getLessonProgress: (lessonId: string) => LessonProgress | null
-  getRecommendedDiscipline: () => string
+  getRecommendedDiscipline: (semester?: 'pre' | 'graduation') => string
 }
 
 export const useStudyStore = create<StudyStore>((set, get) => ({
@@ -239,18 +239,18 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     return progress.find((p) => p.lesson_id === lessonId) ?? null
   },
 
-  getRecommendedDiscipline: () => {
+  getRecommendedDiscipline: (semester: 'pre' | 'graduation' = 'pre') => {
     const { sessions, progress } = get()
-    const preDisciplines = disciplines.filter((d) => d.semester === 'pre')
+    const filteredDisciplines = disciplines.filter((d) => d.semester === semester)
 
-    if (preDisciplines.length === 0) return disciplines[0]?.id ?? ''
+    if (filteredDisciplines.length === 0) return disciplines[0]?.id ?? ''
 
     const priorityWeight = { URGENTE: 3, ALTA: 2, MÉDIA: 1 }
 
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    const scored = preDisciplines.map((d) => {
+    const scored = filteredDisciplines.map((d) => {
       const totalLessons = d.lessons.length
       const completedLessons = progress.filter(
         (p) => p.discipline_id === d.id && p.completed,
@@ -276,6 +276,6 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     })
 
     scored.sort((a, b) => b.score - a.score)
-    return scored[0]?.id ?? preDisciplines[0].id
+    return scored[0]?.id ?? filteredDisciplines[0].id
   },
 }))

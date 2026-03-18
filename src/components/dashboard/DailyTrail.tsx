@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { useStudyStore } from '@/store/studyStore'
+import { useActiveModuleStore } from '@/store/activeModuleStore'
 import { disciplines } from '@/data/disciplinesData'
 
 export default function DailyTrail() {
   const navigate = useNavigate()
   const { getRecommendedDiscipline, getDaysSinceStudied } = useStudyStore()
+  const { activeModule } = useActiveModuleStore()
 
-  const recommendedId = getRecommendedDiscipline()
+  const recommendedId = getRecommendedDiscipline(activeModule)
   const discipline = disciplines.find((d) => d.id === recommendedId)
   const daysSince = getDaysSinceStudied()
 
@@ -73,7 +75,7 @@ export default function DailyTrail() {
       </div>
 
       <button
-        onClick={() => navigate('/pre-curso')}
+        onClick={() => navigate(activeModule === 'pre' ? '/pre-curso' : '/graduacao')}
         style={{
           display: 'flex',
           alignItems: 'center',

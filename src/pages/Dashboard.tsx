@@ -5,6 +5,7 @@ import ProgressCard from '@/components/dashboard/ProgressCard'
 import EventCalendar from '@/components/calendar/EventCalendar'
 import DailyTrail from '@/components/dashboard/DailyTrail'
 import { useStudyStore } from '@/store/studyStore'
+import { useActiveModuleStore } from '@/store/activeModuleStore'
 import { disciplines } from '@/data/disciplinesData'
 
 const container = {
@@ -20,6 +21,7 @@ const item = {
 export default function Dashboard() {
   const greeting = getGreeting()
   const getDisciplineProgress = useStudyStore((s) => s.getDisciplineProgress)
+  const { activeModule, setActiveModule } = useActiveModuleStore()
 
   const preDisciplines = disciplines.filter((d) => d.semester === 'pre')
   const totalLessons = preDisciplines.reduce((acc, d) => acc + d.lessons.length, 0)
@@ -52,6 +54,45 @@ export default function Dashboard() {
         >
           {greeting}
         </h2>
+
+        {/* Seletor de módulo ativo */}
+        <div style={{ display: 'flex', gap: 0, marginTop: 16 }}>
+          <button
+            onClick={() => setActiveModule('pre')}
+            style={{
+              padding: '8px 20px',
+              background: activeModule === 'pre' ? '#1A1A1A' : '#FFFFFF',
+              color: activeModule === 'pre' ? '#FFFFFF' : '#1A1A1A',
+              border: '2px solid #1A1A1A',
+              borderRadius: 0,
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+            }}
+          >
+            Pré-Curso
+          </button>
+          <button
+            onClick={() => setActiveModule('graduation')}
+            style={{
+              padding: '8px 20px',
+              background: activeModule === 'graduation' ? '#1A1A1A' : '#FFFFFF',
+              color: activeModule === 'graduation' ? '#FFFFFF' : '#1A1A1A',
+              border: '2px solid #1A1A1A',
+              borderLeft: 'none',
+              borderRadius: 0,
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+            }}
+          >
+            Graduação
+          </button>
+        </div>
       </motion.div>
 
       {/* DailyTrail — recomendação do dia */}
@@ -61,12 +102,21 @@ export default function Dashboard() {
 
       {/* ProgressCard — destaque central */}
       <motion.div variants={item}>
-        <ProgressCard
-          label="Pré-Curso — Geologia UFPE"
-          completed={completedLessons}
-          total={totalLessons}
-          percent={overallPct}
-        />
+        {activeModule === 'pre' ? (
+          <ProgressCard
+            label="Pré-Curso — Geologia UFPE"
+            completed={completedLessons}
+            total={totalLessons}
+            percent={overallPct}
+          />
+        ) : (
+          <ProgressCard
+            label="Graduação — UFPE Geologia · 1º Semestre"
+            completed={gradCompleted}
+            total={gradTotal}
+            percent={gradPct}
+          />
+        )}
       </motion.div>
 
       {/* Cards de acesso rápido */}
