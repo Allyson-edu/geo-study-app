@@ -43,19 +43,18 @@ export default function CountdownToCourse() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.2 }}
-      className="rounded-2xl overflow-hidden relative"
+      className="overflow-hidden relative"
       style={{
-        background: 'linear-gradient(135deg, #0A84FF22, #BF5AF222)',
-        border: '1px solid rgba(10, 132, 255, 0.3)',
+        background: '#1A1A1A',
+        border: '2px solid #1A1A1A',
+        boxShadow: '4px 4px 0 #D62B2B',
       }}
     >
-      {/* Fundo decorativo */}
-      <div className="absolute inset-0 opacity-5"
-        style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #0A84FF, transparent 60%), radial-gradient(circle at 80% 50%, #BF5AF2, transparent 60%)' }}
-      />
+      {/* Faixa amarela Bauhaus */}
+      <div style={{ height: 6, background: '#F5C400' }} />
 
       <div className="relative p-6">
-        <p className="text-sm font-semibold text-bigsur-blue mb-1">⚔️ A Grande Jornada Começa Em</p>
+        <p className="text-sm font-bold text-[#F5C400] mb-1 uppercase tracking-wider">⚔️ A Grande Jornada Começa Em</p>
         <p className="text-xs text-[var(--text-tertiary)] mb-4">Geologia — UFPE · 03/08/2026</p>
 
         <div className="flex items-center gap-4 md:gap-8">

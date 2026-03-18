@@ -129,11 +129,7 @@ export default function ProgressMap() {
       <div className="mb-6">
         <h2
           className="text-2xl font-bold"
-          style={{
-            background: 'var(--gradient-primary)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
+          style={{ color: '#1A1A1A' }}
         >
           🗺️ Mapa de Progresso
         </h2>
@@ -144,12 +140,11 @@ export default function ProgressMap() {
 
       {/* Container do mapa SVG */}
       <div
-        className="rounded-2xl overflow-hidden relative"
+        className="overflow-hidden relative"
         style={{
-          background: 'var(--bg-card)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid var(--border-color)',
-          boxShadow: 'var(--shadow-card)',
+          background: '#FFFFFF',
+          border: '2px solid #1A1A1A',
+          boxShadow: '4px 4px 0 #1A1A1A',
         }}
       >
         {/* Grid de pontos no fundo */}
@@ -162,7 +157,7 @@ export default function ProgressMap() {
           <defs>
             {/* Padrão de pontos */}
             <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.06)" />
+              <circle cx="2" cy="2" r="1" fill="rgba(26,26,26,0.08)" />
             </pattern>
             {/* Gradientes de cada disciplina */}
             {DISCIPLINES.map((d) => (
@@ -186,7 +181,7 @@ export default function ProgressMap() {
                 y1={CENTER.y}
                 x2={pos.x}
                 y2={pos.y}
-                stroke="rgba(255,255,255,0.1)"
+                stroke="rgba(26,26,26,0.15)"
                 strokeWidth={1.5}
                 strokeDasharray="6 4"
               />
@@ -215,20 +210,20 @@ export default function ProgressMap() {
 
           {/* Nó central */}
           <g>
-            <circle cx={CENTER.x} cy={CENTER.y} r={38} fill="var(--bg-secondary)" />
+            <circle cx={CENTER.x} cy={CENTER.y} r={38} fill="#FFFFFF" />
             <circle
               cx={CENTER.x}
               cy={CENTER.y}
               r={38}
               fill="none"
-              stroke="rgba(10,132,255,0.4)"
+              stroke="#1A1A1A"
               strokeWidth={2}
             />
             <text
               x={CENTER.x}
               y={CENTER.y - 4}
               textAnchor="middle"
-              fill="white"
+              fill="#1A1A1A"
               fontSize={20}
             >
               🌍
@@ -237,7 +232,7 @@ export default function ProgressMap() {
               x={CENTER.x}
               y={CENTER.y + 14}
               textAnchor="middle"
-              fill="rgba(255,255,255,0.7)"
+              fill="#5C5C5C"
               fontSize={9}
               fontWeight="600"
             >
@@ -262,7 +257,7 @@ export default function ProgressMap() {
                   cx={pos.x}
                   cy={pos.y}
                   r={36}
-                  fill="var(--bg-secondary)"
+                  fill="#FFFFFF"
                 />
                 <circle
                   cx={pos.x}
@@ -290,7 +285,7 @@ export default function ProgressMap() {
                   x={pos.x}
                   y={pos.y + 52}
                   textAnchor="middle"
-                  fill="rgba(255,255,255,0.8)"
+                  fill="#1A1A1A"
                   fontSize={11}
                   fontWeight="600"
                 >
@@ -317,8 +312,8 @@ export default function ProgressMap() {
                         cx={mPos.x}
                         cy={mPos.y}
                         r={16}
-                        fill={isCompleted ? disc.color : 'var(--bg-tertiary)'}
-                        stroke={isCompleted ? disc.color : disc.color + '55'}
+                        fill={isCompleted ? disc.color : '#EBEBEB'}
+                        stroke={isCompleted ? disc.color : '#D0CCC4'}
                         strokeWidth={1.5}
                       />
                       {isCompleted ? (
@@ -336,7 +331,7 @@ export default function ProgressMap() {
                           x={mPos.x}
                           y={mPos.y + 5}
                           textAnchor="middle"
-                          fill="rgba(255,255,255,0.3)"
+                          fill="rgba(26,26,26,0.4)"
                           fontSize={10}
                         >
                           🔒

@@ -24,19 +24,20 @@ export default function ProgressCard({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="w-full rounded-2xl p-6"
+      className="w-full p-6"
       style={{
-        background: 'rgba(21, 25, 35, 0.7)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: `1px solid rgba(56, 191, 161, 0.15)`,
-        boxShadow: '0 2px 20px rgba(0,0,0,0.4)',
+        background: '#FFFFFF',
+        border: '2px solid #1A1A1A',
+        boxShadow: '4px 4px 0 #1A1A1A',
       }}
     >
+      {/* Faixa de cor superior — acento azul Bauhaus */}
+      <div style={{ height: 4, background: '#1A4DAB', marginBottom: 16, marginLeft: -24, marginRight: -24, marginTop: -24, width: 'calc(100% + 48px)' }} />
+
       {/* Label acima */}
       <p
-        className="text-xs font-semibold uppercase tracking-widest mb-2"
-        style={{ color: 'var(--text-secondary)' }}
+        className="text-xs font-bold uppercase tracking-widest mb-2"
+        style={{ color: '#5C5C5C' }}
       >
         {label}
       </p>
@@ -44,27 +45,25 @@ export default function ProgressCard({
       {/* Porcentagem grande */}
       <div className="flex items-end gap-4 mb-4">
         <span
-          className="text-5xl font-bold leading-none"
-          style={{
-            background: 'linear-gradient(135deg, #38BFA1 0%, #5B8DEF 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
+          className="font-bold leading-none"
+          style={{ fontSize: 56, color: '#1A1A1A' }}
         >
           {percent}%
         </span>
-        <span className="text-sm pb-1" style={{ color: 'var(--text-secondary)' }}>
+        <span className="text-sm pb-2 font-semibold uppercase tracking-wider" style={{ color: '#5C5C5C' }}>
           concluído
         </span>
       </div>
 
-      {/* Barra de progresso animada */}
-      <div className="progress-bar mb-3" style={{ height: 8 }}>
+      {/* Barra de progresso flat — sem shimmer, sem arredondamento */}
+      <div
+        className="mb-3"
+        style={{ height: 8, background: '#EBEBEB', border: '1px solid #D0CCC4' }}
+      >
         <motion.div
-          className="h-full rounded-full"
           style={{
-            background: 'linear-gradient(135deg, #38BFA1 0%, #5B8DEF 100%)',
+            height: '100%',
+            background: '#1A4DAB',
             minWidth: 4,
           }}
           initial={{ width: 0 }}
@@ -74,7 +73,7 @@ export default function ProgressCard({
       </div>
 
       {/* Contagem de disciplinas */}
-      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+      <p className="text-xs font-medium" style={{ color: '#9A9A9A' }}>
         {completed} de {total} disciplinas concluídas
       </p>
     </motion.div>

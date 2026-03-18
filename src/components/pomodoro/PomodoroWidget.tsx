@@ -171,9 +171,10 @@ export default function PomodoroWidget() {
       <motion.div
         layout
         className={cn(
-          'glass-dark rounded-2xl shadow-2xl overflow-hidden',
+          'overflow-hidden',
           store.isMinimized ? 'w-20 h-20' : 'w-64'
         )}
+        style={{ background: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0 #D62B2B' }}
       >
         {store.isMinimized ? (
           /* Estado minimizado — só o círculo e o tempo */

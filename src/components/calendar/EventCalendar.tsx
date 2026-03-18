@@ -53,18 +53,18 @@ function AddEventModal({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+      style={{ background: 'rgba(26, 26, 26, 0.7)' }}
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
+        initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="rounded-2xl p-6 w-full max-w-md"
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="p-6 w-full max-w-md"
         style={{
-          background: 'var(--bg-secondary)',
-          border: '1px solid var(--border-color)',
-          boxShadow: 'var(--shadow-card)',
+          background: '#FFFFFF',
+          border: '2px solid #1A1A1A',
+          boxShadow: '6px 6px 0 #1A1A1A',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -88,11 +88,11 @@ function AddEventModal({ onClose }: { onClose: () => void }) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Ex: Prova de Cálculo"
-              className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+              className="w-full px-3 py-2 text-sm outline-none"
               style={{
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)',
+                background: '#F5F0E8',
+                border: '2px solid #1A1A1A',
+                color: '#1A1A1A',
               }}
               required
             />
@@ -107,11 +107,11 @@ function AddEventModal({ onClose }: { onClose: () => void }) {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+              className="w-full px-3 py-2 text-sm outline-none"
               style={{
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)',
+                background: '#F5F0E8',
+                border: '2px solid #1A1A1A',
+                color: '#1A1A1A',
               }}
               required
             />
@@ -126,11 +126,11 @@ function AddEventModal({ onClose }: { onClose: () => void }) {
               type="text"
               value={emoji}
               onChange={(e) => setEmoji(e.target.value)}
-              className="w-24 px-3 py-2 rounded-xl text-sm outline-none text-center"
+              className="w-24 px-3 py-2 text-sm outline-none text-center"
               style={{
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)',
+                background: '#F5F0E8',
+                border: '2px solid #1A1A1A',
+                color: '#1A1A1A',
               }}
             />
           </div>
@@ -159,8 +159,8 @@ function AddEventModal({ onClose }: { onClose: () => void }) {
 
           <button
             type="submit"
-            className="w-full py-2.5 rounded-xl font-semibold text-sm text-white"
-            style={{ background: 'var(--gradient-primary)', boxShadow: 'var(--shadow-glow-blue)' }}
+            className="w-full py-2.5 font-bold text-sm text-white uppercase tracking-wider"
+            style={{ background: '#1A4DAB', border: '2px solid #1A1A1A', boxShadow: '3px 3px 0 #1A1A1A' }}
           >
             Adicionar Evento
           </button>
@@ -186,7 +186,7 @@ export default function EventCalendar() {
   const otherEvents = events.filter((e) => !e.isFeatured)
 
   return (
-    <div className="card-btn variant-amber rounded-2xl p-5">
+    <div className="card-btn variant-amber p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -207,10 +207,11 @@ export default function EventCalendar() {
       {featured && (
         <motion.div
           key={featured.id + tick}
-          className="rounded-xl p-4 mb-4"
+          className="p-4 mb-4"
           style={{
-            background: `linear-gradient(135deg, ${featured.color}22 0%, ${featured.color}11 100%)`,
-            border: `1px solid ${featured.color}44`,
+            background: '#F5F0E8',
+            border: `1px solid #D0CCC4`,
+            borderLeft: `4px solid ${featured.color}`,
           }}
         >
           <p className="text-xs font-semibold mb-3" style={{ color: featured.color }}>
@@ -227,8 +228,8 @@ export default function EventCalendar() {
               {timeUntil ? (
                 <>
                   <motion.p
-                    className="font-bold text-grad-amber"
-                    style={{ fontSize: 48, lineHeight: 1 }}
+                    className="font-bold"
+                    style={{ fontSize: 48, lineHeight: 1, color: '#1A1A1A' }}
                     animate={{ opacity: [0.8, 1, 0.8] }}
                     transition={{ duration: 3, repeat: Infinity }}
                   >
@@ -262,9 +263,10 @@ export default function EventCalendar() {
             return (
               <div
                 key={event.id}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl"
+                className="flex items-center gap-2 px-3 py-2"
                 style={{
-                  background: 'var(--bg-tertiary)',
+                  background: '#F5F0E8',
+                  border: '1px solid #D0CCC4',
                   opacity: past ? 0.5 : 1,
                 }}
               >

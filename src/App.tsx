@@ -11,69 +11,50 @@ import StudyDiary from '@/pages/StudyDiary'
 import FocusMode from '@/pages/FocusMode'
 import ProgressMap from '@/pages/ProgressMap'
 
-/* Elementos decorativos Bauhaus — formas geométricas de fundo */
+/* Elementos decorativos Bauhaus — retângulos e círculo sólidos nos cantos */
 function BauhausBackground() {
   return (
-    <svg
-      aria-hidden="true"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 0,
-        overflow: 'visible',
-      }}
-    >
-      {/* Círculo grande vazado — canto superior direito */}
-      <circle
-        cx="92%"
-        cy="-5%"
-        r="220"
-        fill="none"
-        stroke="rgba(91,141,239,0.06)"
-        strokeWidth="1.5"
-      />
-      <circle
-        cx="92%"
-        cy="-5%"
-        r="340"
-        fill="none"
-        stroke="rgba(91,141,239,0.03)"
-        strokeWidth="1"
-      />
-      {/* Linha diagonal sutil */}
-      <line
-        x1="0"
-        y1="65%"
-        x2="100%"
-        y2="35%"
-        stroke="rgba(56,191,161,0.04)"
-        strokeWidth="1"
-      />
-      {/* Quadrado rotacionado 45° — canto inferior esquerdo */}
-      <rect
-        x="-80"
-        y="75%"
-        width="220"
-        height="220"
-        fill="none"
-        stroke="rgba(139,111,212,0.06)"
-        strokeWidth="1.5"
-        transform="rotate(45, 30, 0)"
-        style={{ transformOrigin: '30px 80%' }}
-      />
-      {/* Círculo pequeno médio — fundo central esquerdo */}
-      <circle
-        cx="8%"
-        cy="55%"
-        r="80"
-        fill="none"
-        stroke="rgba(232,150,61,0.05)"
-        strokeWidth="1"
-      />
-    </svg>
+    <div aria-hidden="true" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      {/* Retângulo vermelho — canto superior direito */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        width: 180,
+        height: 12,
+        background: '#D62B2B',
+      }} />
+      {/* Retângulo azul — canto superior direito vertical */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        width: 12,
+        height: 160,
+        background: '#1A4DAB',
+      }} />
+      {/* Círculo amarelo — canto inferior esquerdo */}
+      <div style={{
+        position: 'absolute',
+        bottom: -60,
+        left: -60,
+        width: 200,
+        height: 200,
+        borderRadius: '50%',
+        background: '#F5C400',
+        opacity: 0.35,
+      }} />
+      {/* Retângulo preto fino — divisor inferior */}
+      <div style={{
+        position: 'absolute',
+        bottom: 80,
+        left: 0,
+        width: '30%',
+        height: 3,
+        background: '#1A1A1A',
+        opacity: 0.08,
+      }} />
+    </div>
   )
 }
 
