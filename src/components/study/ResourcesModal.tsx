@@ -38,8 +38,8 @@ export default function ResourcesModal({ isOpen, onClose, lesson, disciplineId }
         setContent(formatResources(text))
         // Registrar sessão de estudo ao abrir
         await recordStudySession(disciplineId, lesson.id, 0)
-      } catch {
-        setError('Não foi possível carregar os recursos. Verifique sua chave da API Gemini.')
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Não foi possível carregar os recursos.')
       } finally {
         setIsLoading(false)
       }

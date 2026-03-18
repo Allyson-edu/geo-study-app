@@ -43,7 +43,7 @@ export default function WhereToStudy({ lessonTitle, isOpen, onClose }: WhereToSt
       const result = await generateWhereToStudy(lessonTitle)
       setContent(result)
     } catch (e) {
-      setError('Erro ao buscar recursos. Verifique sua chave do Gemini.')
+      setError(e instanceof Error ? e.message : 'Erro ao buscar recursos.')
       console.error(e)
     } finally {
       setLoading(false)
