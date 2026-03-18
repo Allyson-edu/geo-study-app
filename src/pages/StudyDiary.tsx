@@ -37,10 +37,11 @@ function EntryCard({ entry }: { entry: DiaryEntry }) {
   const mood = MOODS.find((m) => m.value === entry.mood)
   return (
     <div
-      className="rounded-xl p-4"
+      className="p-4"
       style={{
-        background: 'var(--bg-tertiary)',
-        border: '1px solid var(--border-color)',
+        background: '#FFFFFF',
+        border: '1px solid #D0CCC4',
+        borderLeft: '3px solid #1A4DAB',
       }}
     >
       <div className="flex items-center justify-between mb-2">
@@ -112,11 +113,7 @@ export default function StudyDiary() {
       <div>
         <h2
           className="text-2xl font-bold"
-          style={{
-            background: 'var(--gradient-primary)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
+          style={{ color: '#1A1A1A' }}
         >
           📔 Diário de Estudos
         </h2>
@@ -127,14 +124,14 @@ export default function StudyDiary() {
 
       {/* Grade de contribuições — últimos 30 dias */}
       <div
-        className="rounded-2xl p-5"
+        className="p-5"
         style={{
-          background: 'var(--bg-card)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid var(--border-color)',
+          background: '#FFFFFF',
+          border: '2px solid #1A1A1A',
+          boxShadow: '3px 3px 0 #1A1A1A',
         }}
       >
-        <p className="text-xs font-semibold mb-3" style={{ color: 'var(--text-tertiary)' }}>
+        <p className="text-xs font-bold mb-3 uppercase tracking-widest" style={{ color: '#1A1A1A' }}>
           ATIVIDADE — ÚLTIMOS 30 DIAS
         </p>
         <div className="flex flex-wrap gap-1">
@@ -176,11 +173,11 @@ export default function StudyDiary() {
 
       {/* Formulário de hoje */}
       <div
-        className="rounded-2xl p-5"
+        className="p-5"
         style={{
-          background: 'var(--bg-card)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid var(--border-color)',
+          background: '#FFFFFF',
+          border: '2px solid #1A1A1A',
+          boxShadow: '3px 3px 0 #1A1A1A',
         }}
       >
         <p className="font-semibold mb-4 text-sm" style={{ color: 'var(--text-primary)' }}>
@@ -198,11 +195,11 @@ export default function StudyDiary() {
               onChange={(e) => setContent(e.target.value)}
               placeholder="Descreva o que você estudou hoje..."
               rows={4}
-              className="w-full px-3 py-2.5 rounded-xl text-sm resize-none outline-none"
+              className="w-full px-3 py-2.5 text-sm resize-none outline-none"
               style={{
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)',
+                background: '#F5F0E8',
+                border: '2px solid #1A1A1A',
+                color: '#1A1A1A',
               }}
             />
           </div>
@@ -248,11 +245,11 @@ export default function StudyDiary() {
                 value={timeStudied}
                 onChange={(e) => setTimeStudied(e.target.value)}
                 placeholder="0"
-                className="w-24 px-3 py-2 rounded-xl text-sm outline-none"
+                className="w-24 px-3 py-2 text-sm outline-none"
                 style={{
-                  background: 'var(--bg-tertiary)',
-                  border: '1px solid var(--border-color)',
-                  color: 'var(--text-primary)',
+                  background: '#F5F0E8',
+                  border: '2px solid #1A1A1A',
+                  color: '#1A1A1A',
                 }}
               />
               <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>minutos</span>
@@ -269,24 +266,25 @@ export default function StudyDiary() {
               onChange={(e) => setDiscovery(e.target.value)}
               placeholder="Algo interessante que você aprendeu hoje..."
               rows={2}
-              className="w-full px-3 py-2.5 rounded-xl text-sm resize-none outline-none"
+              className="w-full px-3 py-2.5 text-sm resize-none outline-none"
               style={{
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)',
+                background: '#F5F0E8',
+                border: '2px solid #1A1A1A',
+                color: '#1A1A1A',
               }}
             />
           </div>
 
           <motion.button
             type="submit"
-            className="w-full py-3 rounded-xl font-semibold text-sm text-white"
+            className="w-full py-3 font-bold text-sm text-white uppercase tracking-wider"
             style={{
-              background: 'var(--gradient-primary)',
-              boxShadow: 'var(--shadow-glow-blue)',
+              background: '#1A4DAB',
+              border: '2px solid #1A1A1A',
+              boxShadow: '3px 3px 0 #1A1A1A',
             }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ boxShadow: '4px 4px 0 #1A1A1A', x: -1, y: -1 }}
+            whileTap={{ boxShadow: 'none', x: 1, y: 1 }}
           >
             {saved ? '✅ Entrada salva!' : '💾 Salvar entrada'}
           </motion.button>

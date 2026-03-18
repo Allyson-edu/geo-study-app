@@ -46,7 +46,7 @@ export default function PreCourse() {
     >
       {/* Header */}
       <motion.div variants={item}>
-        <h2 className="text-2xl font-bold text-[var(--text-primary)]">🎓 Preparação Pré-Curso</h2>
+        <h2 className="text-2xl font-bold" style={{ color: '#1A1A1A' }}>🎓 Preparação Pré-Curso</h2>
         <p className="text-[var(--text-secondary)] text-sm mt-1">
           6 disciplinas para você chegar preparado à UFPE
         </p>
@@ -57,10 +57,10 @@ export default function PreCourse() {
             <span>Progresso geral</span>
             <span>0%</span>
           </div>
-          <div className="h-2 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
+          <div className="h-2 bg-[#EBEBEB] border border-[#D0CCC4] overflow-hidden">
             <motion.div
-              className="h-full rounded-full"
-              style={{ background: 'linear-gradient(90deg, #0A84FF, #BF5AF2)', width: '0%' }}
+              className="h-full"
+              style={{ background: '#1A4DAB', width: '0%' }}
               initial={{ width: 0 }}
               animate={{ width: '0%' }}
             />
@@ -74,13 +74,14 @@ export default function PreCourse() {
           <motion.div
             key={d.id}
             variants={item}
-            whileHover={{ y: -4, boxShadow: `0 12px 40px ${d.color ?? '#0A84FF'}30` }}
-            className="glass rounded-2xl p-5 cursor-pointer"
+            whileHover={{ y: -2, boxShadow: `6px 6px 0 #1A1A1A` }}
+            className="p-5 cursor-pointer"
+            style={{ background: '#FFFFFF', border: '2px solid #1A1A1A', boxShadow: '3px 3px 0 #1A1A1A' }}
             onClick={() => navigate(`/disciplina/${d.id}`)}
           >
             <div
-              className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-3"
-              style={{ background: `${d.color ?? '#0A84FF'}20` }}
+              className="w-12 h-12 flex items-center justify-center text-2xl mb-3"
+              style={{ background: `${d.color ?? '#1A4DAB'}20`, border: `2px solid ${d.color ?? '#1A4DAB'}` }}
             >
               {d.icon ?? '📚'}
             </div>
@@ -88,17 +89,17 @@ export default function PreCourse() {
             {d.description && (
               <p className="text-xs text-[var(--text-secondary)] mt-1 line-clamp-2">{d.description}</p>
             )}
-            <div className="mt-3 h-1.5 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
+            <div className="mt-3 h-1.5 bg-[#EBEBEB] border border-[#D0CCC4] overflow-hidden">
               <div
-                className="h-full rounded-full"
-                style={{ background: d.color ?? '#0A84FF', width: '0%' }}
+                className="h-full"
+                style={{ background: d.color ?? '#1A4DAB', width: '0%' }}
               />
             </div>
             <p className="text-xs text-[var(--text-tertiary)] mt-1">0% concluído</p>
           </motion.div>
         )) : (
           /* Estado vazio — sem conexão com Supabase */
-          <motion.div variants={item} className="col-span-full glass rounded-2xl p-8 text-center">
+          <motion.div variants={item} className="col-span-full p-8 text-center" style={{ background: '#FFFFFF', border: '2px solid #1A1A1A', boxShadow: '3px 3px 0 #1A1A1A' }}>
             <p className="text-4xl mb-3">🔌</p>
             <p className="font-semibold text-[var(--text-primary)]">Configure o Supabase</p>
             <p className="text-sm text-[var(--text-secondary)] mt-1">

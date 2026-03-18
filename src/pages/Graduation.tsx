@@ -21,11 +21,12 @@ export default function Graduation() {
         {['1º Sem', '2º Sem', '3º Sem', '4º Sem'].map((sem, i) => (
           <button
             key={sem}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+            className={`px-4 py-1.5 text-sm font-bold uppercase tracking-wider transition-all ${
               i === 0
-                ? 'bg-bigsur-purple/20 text-bigsur-purple'
-                : 'bg-[var(--bg-tertiary)] text-[var(--text-tertiary)] opacity-40 cursor-not-allowed'
+                ? 'text-white'
+                : 'text-[var(--text-muted)] opacity-40 cursor-not-allowed'
             }`}
+            style={i === 0 ? { background: '#1A4DAB', border: '2px solid #1A1A1A' } : { background: '#EBEBEB', border: '1px solid #D0CCC4' }}
             disabled={i !== 0}
           >
             {sem}
@@ -38,7 +39,8 @@ export default function Graduation() {
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.1 }}
-        className="glass rounded-2xl p-10 text-center"
+        className="p-10 text-center"
+        style={{ background: '#FFFFFF', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0 #1A1A1A' }}
       >
         <div className="text-6xl mb-4">🎓</div>
         <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">
@@ -56,10 +58,10 @@ export default function Graduation() {
       {/* Grid placeholder para disciplinas futuras */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 opacity-30 pointer-events-none">
         {['Mineralogia', 'Petrografia', 'Geologia Estrutural', 'Paleontologia', 'Geoquímica', 'Geofísica'].map((name) => (
-          <div key={name} className="glass rounded-2xl p-5">
-            <div className="w-10 h-10 bg-bigsur-purple/20 rounded-xl mb-3" />
-            <div className="h-4 bg-[var(--bg-tertiary)] rounded w-3/4 mb-2" />
-            <div className="h-3 bg-[var(--bg-tertiary)] rounded w-1/2" />
+          <div key={name} className="p-5" style={{ background: '#FFFFFF', border: '1px solid #D0CCC4' }}>
+            <div className="w-10 h-10 mb-3" style={{ background: '#EBEBEB', border: '1px solid #D0CCC4' }} />
+            <div className="h-4 bg-[#EBEBEB] border border-[#D0CCC4] w-3/4 mb-2" />
+            <div className="h-3 bg-[#EBEBEB] border border-[#D0CCC4] w-1/2" />
             <p className="text-xs text-[var(--text-tertiary)] mt-2">{name}</p>
           </div>
         ))}

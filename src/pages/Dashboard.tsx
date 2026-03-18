@@ -34,16 +34,11 @@ export default function Dashboard() {
       <motion.div variants={item}>
         <h2
           className="text-3xl font-bold"
-          style={{
-            background: 'linear-gradient(135deg, #E9EBF0 0%, #6B7280 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
+          style={{ color: '#1A1A1A' }}
         >
           {greeting}, Allyson
         </h2>
-        <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm mt-1 font-medium" style={{ color: '#5C5C5C' }}>
           Acompanhe seu progresso no Pré-Curso de Geologia.
         </p>
       </motion.div>
@@ -61,17 +56,17 @@ export default function Dashboard() {
       {/* Cards de acesso rápido */}
       <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Pré-Curso */}
-        <a href="/pre-curso" className="card-btn variant-jade rounded-2xl p-5 block">
+        <a href="/pre-curso" className="card-btn variant-jade p-5 block">
           <div className="flex items-center gap-3 mb-3">
             <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-              style={{ background: 'rgba(56,191,161,0.15)' }}
+              className="w-9 h-9 flex items-center justify-center shrink-0"
+              style={{ background: '#1A4DAB', border: '1px solid #1A1A1A' }}
             >
-              <BookOpen size={18} style={{ color: 'var(--accent-teal)' }} />
+              <BookOpen size={18} style={{ color: '#FFFFFF' }} />
             </div>
             <div>
-              <h3 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>Pré-Curso</h3>
-              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>Pré-Curso</h3>
+              <p className="text-xs" style={{ color: '#5C5C5C' }}>
                 {PRE_COURSE.total} disciplinas · {PRE_COURSE.percent}% concluído
               </p>
             </div>
@@ -82,17 +77,17 @@ export default function Dashboard() {
         </a>
 
         {/* Graduação */}
-        <a href="/graduacao" className="card-btn variant-purple rounded-2xl p-5 block opacity-75">
+        <a href="/graduacao" className="card-btn variant-purple p-5 block opacity-75">
           <div className="flex items-center gap-3 mb-3">
             <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-              style={{ background: 'rgba(139,111,212,0.15)' }}
+              className="w-9 h-9 flex items-center justify-center shrink-0"
+              style={{ background: '#EBEBEB', border: '1px solid #1A1A1A' }}
             >
-              <GraduationCap size={18} style={{ color: 'var(--accent-violet)' }} />
+              <GraduationCap size={18} style={{ color: '#5C5C5C' }} />
             </div>
             <div>
-              <h3 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>Graduação</h3>
-              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>UFPE Geologia · Em breve</p>
+              <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>Graduação</h3>
+              <p className="text-xs" style={{ color: '#5C5C5C' }}>UFPE Geologia · Em breve</p>
             </div>
           </div>
           <div className="progress-track">

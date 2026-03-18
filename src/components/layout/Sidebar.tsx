@@ -29,8 +29,8 @@ function NavSection({ title, items, onClose }: { title: string; items: NavItem[]
   return (
     <div className="mb-4">
       <p
-        className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest"
-        style={{ color: 'var(--text-muted)' }}
+        className="px-3 mb-2 text-[10px] font-bold uppercase tracking-widest"
+        style={{ color: '#1A1A1A' }}
       >
         {title}
       </p>
@@ -64,8 +64,8 @@ export default function Sidebar() {
       {/* Logo — "G" em quadrado + texto */}
       <div className="flex items-center gap-2.5 px-2 mb-5">
         <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-sm"
-          style={{ background: 'var(--accent-blue)', color: '#ffffff', boxShadow: '0 2px 12px rgba(91,141,239,0.4)' }}
+          className="w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm"
+          style={{ background: '#F5C400', color: '#1A1A1A', border: '2px solid #1A1A1A' }}
         >
           G
         </div>
@@ -75,7 +75,7 @@ export default function Sidebar() {
       </div>
 
       {/* Separador */}
-      <div className="h-px mb-4" style={{ background: 'var(--border)' }} />
+      <div className="h-px mb-4" style={{ background: '#1A1A1A' }} />
 
       {/* Navegação */}
       <nav className="flex-1 overflow-y-auto">
@@ -85,16 +85,17 @@ export default function Sidebar() {
 
       {/* Card usuário — nome + sublabel Pré-Curso */}
       <div
-        className="mt-2 px-3 py-3 rounded-xl"
+        className="mt-2 px-3 py-3"
         style={{
-          background: 'rgba(91,141,239,0.07)',
-          border: '1px solid var(--border)',
+          background: '#FFFFFF',
+          border: '1px solid #D0CCC4',
+          borderTop: '2px solid #1A1A1A',
         }}
       >
         <div className="flex items-center gap-2.5">
           <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0"
-            style={{ background: 'var(--accent-teal)' }}
+            className="w-7 h-7 flex items-center justify-center text-xs font-bold shrink-0"
+            style={{ background: '#1A4DAB', color: '#FFFFFF', border: '1px solid #1A1A1A' }}
           >
             A
           </div>
@@ -119,11 +120,11 @@ export default function Sidebar() {
 
       {/* Botão hamburguer mobile */}
       <button
-        className="md:hidden fixed top-3 left-3 z-50 p-2 rounded-xl border"
+        className="md:hidden fixed top-3 left-3 z-50 p-2"
         style={{
-          background: 'var(--bg-surface)',
-          borderColor: 'var(--border)',
-          boxShadow: 'var(--shadow-card)',
+          background: '#FFFFFF',
+          border: '2px solid #1A1A1A',
+          boxShadow: '2px 2px 0 #1A1A1A',
         }}
         onClick={() => setOpen(!open)}
         aria-label="Menu"
