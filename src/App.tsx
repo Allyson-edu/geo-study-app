@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import type { User } from '@supabase/supabase-js'
 import Sidebar from '@/components/layout/Sidebar'
 import TopBar from '@/components/layout/TopBar'
 import PomodoroWidget from '@/components/pomodoro/PomodoroWidget'
@@ -10,6 +12,12 @@ import DisciplineDetail from '@/pages/DisciplineDetail'
 import StudyDiary from '@/pages/StudyDiary'
 import FocusMode from '@/pages/FocusMode'
 import ProgressMap from '@/pages/ProgressMap'
+import { supabase } from '@/lib/supabase'
+import { useStudyStore } from '@/store/studyStore'
+
+interface AppProps {
+  user: User
+}
 
 /* Elementos decorativos Bauhaus — geometria pura nos cantos */
 function BauhausBackground() {
@@ -47,9 +55,14 @@ function BauhausBackground() {
   )
 }
 
-export default function App() {
+export default function App({ user }: AppProps) {
   const location = useLocation()
   const isFocusMode = location.pathname === '/foco'
+  const loadUserData = useStudyStore((s) => s.loadUserData)
+
+  useEffect(() => {
+    loadUserData(user.id)
+  }, [user.id, loadUserData])
 
   if (isFocusMode) {
     return <FocusMode />
@@ -60,7 +73,7 @@ export default function App() {
       <BauhausBackground />
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden" style={{ position: 'relative', zIndex: 1 }}>
-        <TopBar />
+        <TopBar onLogout={() => supabase.auth.signOut()} />
         <main className="flex-1 overflow-y-auto">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
