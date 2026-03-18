@@ -95,7 +95,7 @@ export default function PomodoroWidget() {
     }
   }, [isDragging, store])
 
-  // Drag — iPad (touch)
+  // Drag — touch
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!widgetRef.current) return
     const touch = e.touches[0]
@@ -138,11 +138,11 @@ export default function PomodoroWidget() {
     }
   }, [isDragging, store])
 
-  // SVG timer
+  // SVG timer — cores Bauhaus sólidas
   const totalTime = store.isBreak ? store.breakMinutes * 60 : store.focusMinutes * 60
   const progress = 1 - store.timeLeft / totalTime
   const strokeDashoffset = CIRCUMFERENCE * (1 - progress)
-  const timerColor = store.isBreak ? '#30D158' : '#0A84FF'
+  const timerColor = store.isBreak ? '#F5C400' : '#1A4DAB'
 
   // Formato mm:ss
   const minutes = Math.floor(store.timeLeft / 60).toString().padStart(2, '0')
@@ -174,7 +174,11 @@ export default function PomodoroWidget() {
           'overflow-hidden',
           store.isMinimized ? 'w-20 h-20' : 'w-64'
         )}
-        style={{ background: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0 #D62B2B' }}
+        style={{
+          background: '#FFFFFF',
+          border: '2px solid #1A1A1A',
+          boxShadow: '4px 4px 0 #1A1A1A',
+        }}
       >
         {store.isMinimized ? (
           /* Estado minimizado — só o círculo e o tempo */
@@ -186,7 +190,7 @@ export default function PomodoroWidget() {
             }}
           >
             <svg width="60" height="60" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
+              <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="#EBEBEB" strokeWidth="8" />
               <circle
                 cx="50" cy="50" r={RADIUS}
                 fill="none"
@@ -194,25 +198,39 @@ export default function PomodoroWidget() {
                 strokeWidth="8"
                 strokeDasharray={CIRCUMFERENCE}
                 strokeDashoffset={strokeDashoffset}
-                strokeLinecap="round"
+                strokeLinecap="butt"
                 transform="rotate(-90 50 50)"
                 style={{ transition: 'stroke-dashoffset 0.5s ease' }}
               />
             </svg>
-            <span className="text-xs font-mono text-white/80 -mt-1">{minutes}:{seconds}</span>
+            <span
+              className="text-xs font-mono font-bold -mt-1"
+              style={{ color: '#1A1A1A' }}
+            >
+              {minutes}:{seconds}
+            </span>
           </button>
         ) : (
           /* Widget expandido */
           <div className="p-4">
             {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">
+            <div
+              className="flex items-center justify-between mb-3 pb-3"
+              style={{ borderBottom: '1px solid #EBEBEB' }}
+            >
+              <span
+                className="text-xs font-bold uppercase tracking-wider"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 {store.isBreak ? '☕ Descanso' : '🎯 Foco'}
               </span>
               <div className="flex items-center gap-1">
-                <span className="text-xs text-white/40">#{store.sessionCount}</span>
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  #{store.sessionCount}
+                </span>
                 <button
-                  className="text-white/40 hover:text-white/80 transition-colors p-1"
+                  className="p-1 transition-colors"
+                  style={{ color: 'var(--text-muted)' }}
                   onClick={(e) => { e.stopPropagation(); store.toggleMinimized() }}
                 >
                   <Minus size={14} />
@@ -224,7 +242,7 @@ export default function PomodoroWidget() {
             <div className="flex justify-center mb-3">
               <div className="relative">
                 <svg width="100" height="100" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6" />
+                  <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="#EBEBEB" strokeWidth="6" />
                   <circle
                     cx="50" cy="50" r={RADIUS}
                     fill="none"
@@ -232,13 +250,16 @@ export default function PomodoroWidget() {
                     strokeWidth="6"
                     strokeDasharray={CIRCUMFERENCE}
                     strokeDashoffset={strokeDashoffset}
-                    strokeLinecap="round"
+                    strokeLinecap="butt"
                     transform="rotate(-90 50 50)"
                     style={{ transition: 'stroke-dashoffset 0.5s ease' }}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-mono font-bold text-white">
+                  <span
+                    className="font-mono font-bold"
+                    style={{ fontSize: 22, color: '#1A1A1A' }}
+                  >
                     {minutes}:{seconds}
                   </span>
                 </div>
@@ -248,7 +269,8 @@ export default function PomodoroWidget() {
             {/* Controles de tempo */}
             <div className="flex items-center justify-center gap-2 mb-3">
               <button
-                className="text-white/40 hover:text-white/80 transition-colors"
+                className="transition-colors"
+                style={{ color: 'var(--text-muted)' }}
                 onClick={(e) => {
                   e.stopPropagation()
                   if (!store.isBreak) store.setFocusMinutes(Math.max(1, store.focusMinutes - 5))
@@ -256,11 +278,15 @@ export default function PomodoroWidget() {
               >
                 <Minus size={12} />
               </button>
-              <span className="text-xs text-white/60 w-16 text-center">
+              <span
+                className="text-xs w-16 text-center"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 {store.isBreak ? `Pausa ${store.breakMinutes}min` : `Foco ${store.focusMinutes}min`}
               </span>
               <button
-                className="text-white/40 hover:text-white/80 transition-colors"
+                className="transition-colors"
+                style={{ color: 'var(--text-muted)' }}
                 onClick={(e) => {
                   e.stopPropagation()
                   if (!store.isBreak) store.setFocusMinutes(Math.min(60, store.focusMinutes + 5))
@@ -270,18 +296,28 @@ export default function PomodoroWidget() {
               </button>
             </div>
 
-            {/* Botões de controle */}
+            {/* Botões de controle — flat Bauhaus */}
             <div className="flex items-center justify-center gap-3 mb-3">
               <button
-                className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
+                className="p-2 transition-colors"
+                style={{
+                  background: '#EBEBEB',
+                  border: '1px solid #1A1A1A',
+                  color: 'var(--text-primary)',
+                }}
                 onClick={(e) => { e.stopPropagation(); store.reset() }}
                 aria-label="Reset"
               >
                 <RotateCcw size={16} />
               </button>
               <button
-                className="px-5 py-2 rounded-xl font-semibold text-white transition-colors"
-                style={{ background: timerColor }}
+                className="px-5 py-2 font-bold transition-all"
+                style={{
+                  background: timerColor,
+                  border: `2px solid #1A1A1A`,
+                  color: store.isBreak ? '#1A1A1A' : '#FFFFFF',
+                  boxShadow: '2px 2px 0 #1A1A1A',
+                }}
                 onClick={(e) => {
                   e.stopPropagation()
                   store.isRunning ? store.pause() : store.start()
@@ -302,7 +338,8 @@ export default function PomodoroWidget() {
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
-                  className="text-xs text-white/60 text-center leading-relaxed"
+                  className="text-xs text-center leading-relaxed"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
                   {BREAK_MESSAGES_EXPORT[store.currentMessageIndex]}
                 </motion.p>

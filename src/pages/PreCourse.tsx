@@ -103,7 +103,7 @@ export default function PreCourse() {
             <p className="text-4xl mb-3">🔌</p>
             <p className="font-semibold text-[var(--text-primary)]">Configure o Supabase</p>
             <p className="text-sm text-[var(--text-secondary)] mt-1">
-              Adicione suas credenciais no <code className="text-bigsur-blue">.env.local</code> e rode o <code className="text-bigsur-blue">seed.sql</code> para ver as disciplinas.
+              Adicione suas credenciais no <code style={{ color: '#1A4DAB' }}>.env.local</code> e rode o <code style={{ color: '#1A4DAB' }}>seed.sql</code> para ver as disciplinas.
             </p>
           </motion.div>
         )}
