@@ -34,21 +34,32 @@ const item = {
 }
 
 export default function Graduation() {
-  const graduationDisciplines = disciplines.filter((d) => d.semester === 'graduation')
+  const allGraduationDisciplines = disciplines.filter((d) => d.semester === 'graduation')
   const getDisciplineProgress = useStudyStore((s) => s.getDisciplineProgress)
   const getLessonProgress = useStudyStore((s) => s.getLessonProgress)
   const completeLesson = useStudyStore((s) => s.completeLesson)
 
+  const [selectedSemester, setSelectedSemester] = useState(1)
   const [daysLeft, setDaysLeft] = useState(getDaysUntilExam)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [quizLesson, setQuizLesson] = useState<{ lesson: Lesson; discipline: Discipline } | null>(null)
   const [resourcesLesson, setResourcesLesson] = useState<{ lesson: Lesson; disciplineId: string } | null>(null)
+
+  const graduationDisciplines = allGraduationDisciplines.filter(
+    (d) => d.semesterNumber === selectedSemester
+  )
+
+  const semesterNumbers = Array.from(
+    new Set(allGraduationDisciplines.map((d) => d.semesterNumber ?? 1))
+  ).sort((a, b) => a - b)
 
   useEffect(() => {
     setDaysLeft(getDaysUntilExam())
     const interval = setInterval(() => setDaysLeft(getDaysUntilExam()), 60000)
     return () => clearInterval(interval)
   }, [])
+
+  const ordinals = ['1º', '2º', '3º', '4º', '5º', '6º', '7º', '8º', '9º', '10º']
 
   return (
     <motion.div
@@ -61,45 +72,74 @@ export default function Graduation() {
       <motion.div variants={item}>
         <h2 className="text-2xl font-bold" style={{ color: '#1A1A1A' }}>🏛️ Graduação — UFPE Geologia</h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginTop: 4 }}>
-          Curso de Geologia · Universidade Federal de Pernambuco · 1º Semestre
+          Curso de Geologia · Universidade Federal de Pernambuco · {ordinals[selectedSemester - 1]} Semestre
         </p>
       </motion.div>
 
       {/* Faixa amarela Bauhaus */}
       <motion.div variants={item} style={{ height: 4, background: '#F5C400' }} />
 
-      {/* Countdown em vermelho — destaque */}
-      <motion.div
-        variants={item}
-        style={{
-          background: daysLeft <= 30 ? '#D62B2B' : '#1A1A1A',
-          border: '3px solid #1A1A1A',
-          boxShadow: `4px 4px 0 ${daysLeft <= 30 ? '#1A1A1A' : '#D62B2B'}`,
-          padding: '20px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 12,
-        }}
-      >
-        <div>
-          <p style={{ color: daysLeft <= 30 ? 'rgba(255,255,255,0.7)' : '#9A9A9A', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
-            Início das Aulas
-          </p>
-          <p style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 800 }}>
-            03/08/2026 — Geologia UFPE
-          </p>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: 48, fontWeight: 900, color: '#FFFFFF', lineHeight: 1 }}>
-            {daysLeft > 0 ? daysLeft : 0}
-          </p>
-          <p style={{ fontSize: 12, fontWeight: 700, color: daysLeft <= 30 ? 'rgba(255,255,255,0.8)' : '#9A9A9A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            {daysLeft === 1 ? 'dia restante' : 'dias restantes'}
-          </p>
+      {/* Seletor de semestre */}
+      <motion.div variants={item}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {semesterNumbers.map((num) => (
+            <button
+              key={num}
+              onClick={() => { setSelectedSemester(num); setExpandedId(null) }}
+              style={{
+                padding: '6px 14px',
+                fontSize: 13,
+                fontWeight: 700,
+                border: '2px solid #1A1A1A',
+                borderRadius: 0,
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                background: selectedSemester === num ? '#1A1A1A' : '#FFFFFF',
+                color: selectedSemester === num ? '#FFFFFF' : '#1A1A1A',
+                transition: 'background 0.15s, color 0.15s',
+              }}
+            >
+              {ordinals[num - 1]}
+            </button>
+          ))}
         </div>
       </motion.div>
+
+      {/* Countdown em vermelho — apenas para o 1º semestre */}
+      {selectedSemester === 1 && (
+        <motion.div
+          variants={item}
+          style={{
+            background: daysLeft <= 30 ? '#D62B2B' : '#1A1A1A',
+            border: '3px solid #1A1A1A',
+            boxShadow: `4px 4px 0 ${daysLeft <= 30 ? '#1A1A1A' : '#D62B2B'}`,
+            padding: '20px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+          }}
+        >
+          <div>
+            <p style={{ color: daysLeft <= 30 ? 'rgba(255,255,255,0.7)' : '#9A9A9A', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
+              Início das Aulas
+            </p>
+            <p style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 800 }}>
+              03/08/2026 — Geologia UFPE
+            </p>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: 48, fontWeight: 900, color: '#FFFFFF', lineHeight: 1 }}>
+              {daysLeft > 0 ? daysLeft : 0}
+            </p>
+            <p style={{ fontSize: 12, fontWeight: 700, color: daysLeft <= 30 ? 'rgba(255,255,255,0.8)' : '#9A9A9A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              {daysLeft === 1 ? 'dia restante' : 'dias restantes'}
+            </p>
+          </div>
+        </motion.div>
+      )}
 
       {/* Lista de disciplinas */}
       <motion.div variants={container} className="space-y-3">

@@ -1,9 +1,46 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY
 
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
+async function callGemini(prompt: string): Promise<string> {
+  if (!API_KEY) {
+    throw new Error('Chave VITE_GEMINI_API_KEY não configurada nas variáveis de ambiente.')
+  }
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [{ text: prompt }]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1024,
+      }
+    })
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    throw new Error(`Gemini API retornou ${response.status}: ${errorText}`)
+  }
+
+  const data = await response.json()
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text
+
+  if (!text) {
+    throw new Error('Resposta vazia da API Gemini')
+  }
+
+  return text
+}
 
 export async function generateExercises(lessonTitle: string, disciplineName: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
   const prompt = `Você é um professor especialista em ${disciplineName}. 
   Crie uma lista com 5 exercícios práticos e progressivos (do mais fácil ao mais difícil) sobre o tópico: "${lessonTitle}".
   
@@ -14,13 +51,11 @@ export async function generateExercises(lessonTitle: string, disciplineName: str
   
   Seja didático e use exemplos do cotidiano quando possível.`
 
-  const result = await model.generateContent(prompt)
-  return result.response.text()
+  return callGemini(prompt)
 }
 
 export async function generateWhereToStudy(lessonTitle: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
-  const prompt = `Você é um curador de conteúdo educacional brasileiro especializado em ensino médio e pré-vestibular.
+  const prompt = `Você é um curador de conteúdo educacional brasileiro especializado em ensino superior e ciências da Terra.
   
   Para o tópico "${lessonTitle}", indique recursos de estudo REAIS e específicos:
   
@@ -30,6 +65,6 @@ export async function generateWhereToStudy(lessonTitle: string): Promise<string>
   
   Seja específico com nomes reais. Formate de forma clara e organizada com emojis.`
 
-  const result = await model.generateContent(prompt)
-  return result.response.text()
+  return callGemini(prompt)
 }
+
