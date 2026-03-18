@@ -11,7 +11,6 @@ import Graduation from '@/pages/Graduation'
 import DisciplineDetail from '@/pages/DisciplineDetail'
 import StudyDiary from '@/pages/StudyDiary'
 import FocusMode from '@/pages/FocusMode'
-import ProgressMap from '@/pages/ProgressMap'
 import { supabase } from '@/lib/supabase'
 import { useStudyStore } from '@/store/studyStore'
 
@@ -82,7 +81,6 @@ export default function App({ user }: AppProps) {
               <Route path="/graduacao" element={<Graduation />} />
               <Route path="/disciplina/:id" element={<DisciplineDetail />} />
               <Route path="/diario" element={<StudyDiary />} />
-              <Route path="/mapa" element={<ProgressMap />} />
             </Routes>
           </AnimatePresence>
         </main>

@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
 
 export async function generateExercises(lessonTitle: string, disciplineName: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
   const prompt = `Você é um professor especialista em ${disciplineName}. 
   Crie uma lista com 5 exercícios práticos e progressivos (do mais fácil ao mais difícil) sobre o tópico: "${lessonTitle}".
   
@@ -19,7 +19,7 @@ export async function generateExercises(lessonTitle: string, disciplineName: str
 }
 
 export async function generateWhereToStudy(lessonTitle: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
   const prompt = `Você é um curador de conteúdo educacional brasileiro especializado em ensino médio e pré-vestibular.
   
   Para o tópico "${lessonTitle}", indique recursos de estudo REAIS e específicos:
