@@ -3,12 +3,9 @@ import { BookOpen, GraduationCap } from 'lucide-react'
 import { getGreeting } from '@/lib/utils'
 import ProgressCard from '@/components/dashboard/ProgressCard'
 import EventCalendar from '@/components/calendar/EventCalendar'
-
-const PRE_COURSE = {
-  percent: 0,
-  completed: 0,
-  total: 6,
-}
+import DailyTrail from '@/components/dashboard/DailyTrail'
+import { useStudyStore } from '@/store/studyStore'
+import { disciplines } from '@/data/disciplinesData'
 
 const container = {
   hidden: { opacity: 0 },
@@ -22,6 +19,23 @@ const item = {
 
 export default function Dashboard() {
   const greeting = getGreeting()
+  const getDisciplineProgress = useStudyStore((s) => s.getDisciplineProgress)
+
+  const preDisciplines = disciplines.filter((d) => d.semester === 'pre')
+  const totalLessons = preDisciplines.reduce((acc, d) => acc + d.lessons.length, 0)
+  const completedLessons = preDisciplines.reduce((acc, d) => {
+    const pct = getDisciplineProgress(d.id)
+    return acc + Math.round((pct / 100) * d.lessons.length)
+  }, 0)
+  const overallPct = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0
+
+  const gradDisciplines = disciplines.filter((d) => d.semester === 'graduation')
+  const gradTotal = gradDisciplines.reduce((acc, d) => acc + d.lessons.length, 0)
+  const gradCompleted = gradDisciplines.reduce((acc, d) => {
+    const pct = getDisciplineProgress(d.id)
+    return acc + Math.round((pct / 100) * d.lessons.length)
+  }, 0)
+  const gradPct = gradTotal > 0 ? Math.round((gradCompleted / gradTotal) * 100) : 0
 
   return (
     <motion.div
@@ -36,17 +50,22 @@ export default function Dashboard() {
           className="font-bold"
           style={{ fontSize: 40, color: '#1A1A1A', lineHeight: 1.1 }}
         >
-          {greeting}, Allyson
+          {greeting}
         </h2>
+      </motion.div>
+
+      {/* DailyTrail — recomendação do dia */}
+      <motion.div variants={item}>
+        <DailyTrail />
       </motion.div>
 
       {/* ProgressCard — destaque central */}
       <motion.div variants={item}>
         <ProgressCard
           label="Pré-Curso — Geologia UFPE"
-          completed={PRE_COURSE.completed}
-          total={PRE_COURSE.total}
-          percent={PRE_COURSE.percent}
+          completed={completedLessons}
+          total={totalLessons}
+          percent={overallPct}
         />
       </motion.div>
 
@@ -64,17 +83,17 @@ export default function Dashboard() {
             <div>
               <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>Pré-Curso</h3>
               <p className="text-xs" style={{ color: '#5C5C5C' }}>
-                {PRE_COURSE.total} disciplinas · {PRE_COURSE.percent}% concluído
+                {preDisciplines.length} disciplinas · {overallPct}% concluído
               </p>
             </div>
           </div>
           <div style={{ height: 10, background: '#EBEBEB', border: '1px solid #D0CCC4' }}>
-            <div style={{ height: '100%', background: '#1A4DAB', width: `${Math.max(PRE_COURSE.percent, 2)}%` }} />
+            <div style={{ height: '100%', background: '#1A4DAB', width: `${Math.max(overallPct, overallPct > 0 ? 2 : 0)}%`, transition: 'width 0.5s ease' }} />
           </div>
         </a>
 
         {/* Graduação — borda esquerda amarela */}
-        <a href="/graduacao" className="card-btn p-5 block" style={{ borderLeft: '4px solid #F5C400', opacity: 0.75 }}>
+        <a href="/graduacao" className="card-btn p-5 block" style={{ borderLeft: '4px solid #F5C400' }}>
           <div className="flex items-center gap-3 mb-3">
             <div
               className="w-10 h-10 flex items-center justify-center shrink-0"
@@ -84,11 +103,13 @@ export default function Dashboard() {
             </div>
             <div>
               <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>Graduação</h3>
-              <p className="text-xs" style={{ color: '#5C5C5C' }}>UFPE Geologia · Em breve</p>
+              <p className="text-xs" style={{ color: '#5C5C5C' }}>
+                UFPE Geologia · 1º Sem · {gradPct}% concluído
+              </p>
             </div>
           </div>
           <div style={{ height: 10, background: '#EBEBEB', border: '1px solid #D0CCC4' }}>
-            <div style={{ height: '100%', background: '#F5C400', width: '2%' }} />
+            <div style={{ height: '100%', background: '#F5C400', width: `${Math.max(gradPct, gradPct > 0 ? 2 : 0)}%`, transition: 'width 0.5s ease' }} />
           </div>
         </a>
       </motion.div>
