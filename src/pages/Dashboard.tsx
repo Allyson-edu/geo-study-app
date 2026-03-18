@@ -30,17 +30,14 @@ export default function Dashboard() {
       animate="show"
       className="p-6 max-w-5xl mx-auto space-y-6"
     >
-      {/* Saudação */}
+      {/* Saudação — apenas ela, sem subtítulo */}
       <motion.div variants={item}>
         <h2
-          className="text-3xl font-bold"
-          style={{ color: '#1A1A1A' }}
+          className="font-bold"
+          style={{ fontSize: 40, color: '#1A1A1A', lineHeight: 1.1 }}
         >
           {greeting}, Allyson
         </h2>
-        <p className="text-sm mt-1 font-medium" style={{ color: '#5C5C5C' }}>
-          Acompanhe seu progresso no Pré-Curso de Geologia.
-        </p>
       </motion.div>
 
       {/* ProgressCard — destaque central */}
@@ -55,12 +52,12 @@ export default function Dashboard() {
 
       {/* Cards de acesso rápido */}
       <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Pré-Curso */}
-        <a href="/pre-curso" className="card-btn variant-jade p-5 block">
+        {/* Pré-Curso — borda esquerda azul */}
+        <a href="/pre-curso" className="card-btn p-5 block" style={{ borderLeft: '4px solid #1A4DAB' }}>
           <div className="flex items-center gap-3 mb-3">
             <div
-              className="w-9 h-9 flex items-center justify-center shrink-0"
-              style={{ background: '#1A4DAB', border: '1px solid #1A1A1A' }}
+              className="w-10 h-10 flex items-center justify-center shrink-0"
+              style={{ background: '#1A4DAB', border: '2px solid #1A1A1A' }}
             >
               <BookOpen size={18} style={{ color: '#FFFFFF' }} />
             </div>
@@ -71,27 +68,27 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
-          <div className="progress-track">
-            <div className="progress-fill jade" style={{ width: `${PRE_COURSE.percent}%` }} />
+          <div style={{ height: 10, background: '#EBEBEB', border: '1px solid #D0CCC4' }}>
+            <div style={{ height: '100%', background: '#1A4DAB', width: `${Math.max(PRE_COURSE.percent, 2)}%` }} />
           </div>
         </a>
 
-        {/* Graduação */}
-        <a href="/graduacao" className="card-btn variant-purple p-5 block opacity-75">
+        {/* Graduação — borda esquerda amarela */}
+        <a href="/graduacao" className="card-btn p-5 block" style={{ borderLeft: '4px solid #F5C400', opacity: 0.75 }}>
           <div className="flex items-center gap-3 mb-3">
             <div
-              className="w-9 h-9 flex items-center justify-center shrink-0"
-              style={{ background: '#EBEBEB', border: '1px solid #1A1A1A' }}
+              className="w-10 h-10 flex items-center justify-center shrink-0"
+              style={{ background: '#F5C400', border: '2px solid #1A1A1A' }}
             >
-              <GraduationCap size={18} style={{ color: '#5C5C5C' }} />
+              <GraduationCap size={18} style={{ color: '#1A1A1A' }} />
             </div>
             <div>
               <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>Graduação</h3>
               <p className="text-xs" style={{ color: '#5C5C5C' }}>UFPE Geologia · Em breve</p>
             </div>
           </div>
-          <div className="progress-track">
-            <div className="progress-fill" style={{ width: '0%' }} />
+          <div style={{ height: 10, background: '#EBEBEB', border: '1px solid #D0CCC4' }}>
+            <div style={{ height: '100%', background: '#F5C400', width: '2%' }} />
           </div>
         </a>
       </motion.div>
