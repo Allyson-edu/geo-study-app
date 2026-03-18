@@ -60,7 +60,6 @@ export default function DisciplineDetail() {
       .order('order_index')
       .then(({ data }) => {
         if (data) {
-          // Ordena as aulas dentro de cada módulo
           const sorted = data.map((m) => ({
             ...m,
             lessons: (m.lessons ?? []).sort(
@@ -72,7 +71,8 @@ export default function DisciplineDetail() {
       })
   }, [id])
 
-  const color = discipline?.color ?? '#0A84FF'
+  // Cor sólida da disciplina — usar como acento Bauhaus
+  const accentColor = discipline?.color ?? '#1A4DAB'
 
   return (
     <motion.div
@@ -82,36 +82,53 @@ export default function DisciplineDetail() {
     >
       {/* Botão voltar */}
       <button
-        className="flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+        className="flex items-center gap-2 text-sm transition-colors"
+        style={{ color: 'var(--text-secondary)' }}
         onClick={() => navigate(-1)}
       >
         <ArrowLeft size={16} />
         Voltar
       </button>
 
-      {/* Header da disciplina */}
+      {/* Header da disciplina — card flat com faixa colorida na borda esquerda */}
       {discipline && (
         <div
-          className="rounded-2xl p-6 flex items-start gap-4"
-          style={{ background: `${color}15`, border: `1px solid ${color}30` }}
+          className="p-6 flex items-start gap-4"
+          style={{
+            background: '#FFFFFF',
+            border: '2px solid #1A1A1A',
+            borderLeft: `8px solid ${accentColor}`,
+            boxShadow: '4px 4px 0 #1A1A1A',
+          }}
         >
+          {/* Ícone — quadrado com cor sólida */}
           <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shrink-0"
-            style={{ background: `${color}20` }}
+            className="w-14 h-14 flex items-center justify-center text-3xl shrink-0"
+            style={{
+              background: accentColor,
+              border: '2px solid #1A1A1A',
+            }}
           >
             {discipline.icon ?? '📚'}
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-[var(--text-primary)]">{discipline.name}</h2>
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold" style={{ color: '#1A1A1A' }}>
+              {discipline.name}
+            </h2>
             {discipline.description && (
-              <p className="text-[var(--text-secondary)] text-sm mt-1">{discipline.description}</p>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+                {discipline.description}
+              </p>
             )}
-            {/* Barra de progresso da disciplina */}
+            {/* Barra de progresso flat */}
             <div className="mt-3 flex items-center gap-2">
-              <div className="h-1.5 w-40 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
-                <div className="h-full w-0 rounded-full" style={{ background: color }} />
+              <div
+                className="overflow-hidden"
+                style={{ height: 8, width: 160, background: '#EBEBEB', border: '1px solid #D0CCC4' }}
+              >
+                <div style={{ height: '100%', width: '0%', background: accentColor }} />
               </div>
-              <span className="text-xs text-[var(--text-tertiary)]">0% concluído</span>
+              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>0% concluído</span>
             </div>
           </div>
         </div>
@@ -124,7 +141,7 @@ export default function DisciplineDetail() {
             <ModuleCard
               key={mod.id}
               module={mod}
-              disciplineColor={color}
+              disciplineColor={accentColor}
               totalCount={mod.lessons?.length ?? 0}
               completedCount={0}
               onLessonClick={(lesson) => {
@@ -134,11 +151,14 @@ export default function DisciplineDetail() {
           ))}
         </div>
       ) : (
-        <div className="glass rounded-2xl p-8 text-center">
+        <div
+          className="p-8 text-center"
+          style={{ background: '#FFFFFF', border: '2px solid #1A1A1A', boxShadow: '3px 3px 0 #1A1A1A' }}
+        >
           <p className="text-4xl mb-3">📦</p>
-          <p className="font-semibold text-[var(--text-primary)]">Nenhum módulo encontrado</p>
-          <p className="text-sm text-[var(--text-secondary)] mt-1">
-            Execute o <code className="text-bigsur-blue">seed.sql</code> no Supabase para popular o conteúdo.
+          <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>Nenhum módulo encontrado</p>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+            Execute o <code style={{ color: '#1A4DAB', fontWeight: 700 }}>seed.sql</code> no Supabase para popular o conteúdo.
           </p>
         </div>
       )}
@@ -162,28 +182,46 @@ export default function DisciplineDetail() {
         />
       )}
 
-      {/* Painel de ações da aula selecionada */}
+      {/* Painel de ações da aula selecionada — flat Bauhaus */}
       {selectedLesson && !exerciseOpen && !whereOpen && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 glass-dark rounded-2xl px-5 py-3 flex items-center gap-3 shadow-2xl"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 px-5 py-3 flex items-center gap-3"
+          style={{
+            background: '#1A1A1A',
+            border: '2px solid #1A1A1A',
+            boxShadow: '4px 4px 0 #D62B2B',
+          }}
         >
-          <span className="text-sm text-white/70 mr-1">{selectedLesson.title}</span>
+          <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.7)', marginRight: 4 }}>
+            {selectedLesson.title}
+          </span>
           <button
-            className="text-xs px-3 py-1.5 rounded-xl bg-bigsur-blue/20 text-bigsur-blue hover:bg-bigsur-blue/30 transition-colors"
+            className="text-xs px-3 py-1.5 font-medium transition-all"
+            style={{
+              background: '#F5C400',
+              border: '2px solid #F5C400',
+              color: '#1A1A1A',
+            }}
             onClick={() => setWhereOpen(true)}
           >
             📍 Onde estudar
           </button>
           <button
-            className="text-xs px-3 py-1.5 rounded-xl bg-bigsur-purple/20 text-bigsur-purple hover:bg-bigsur-purple/30 transition-colors"
+            className="text-xs px-3 py-1.5 font-medium transition-all"
+            style={{
+              background: '#1A4DAB',
+              border: '2px solid #1A4DAB',
+              color: '#FFFFFF',
+            }}
             onClick={() => setExerciseOpen(true)}
           >
             ✏️ Praticar
           </button>
           <button
-            className="text-xs text-white/40 hover:text-white/70 transition-colors"
+            className="text-xs font-medium transition-colors"
+            style={{ color: 'rgba(255,255,255,0.5)' }}
             onClick={() => setSelectedLesson(null)}
           >
             ✕

@@ -139,7 +139,7 @@ export default function StudyDiary() {
             <div
               key={day.date}
               title={`${formatDate(day.date)}${day.hasEntry ? ` · ${MOODS.find((m) => m.value === day.mood)?.label ?? ''}` : ' · Sem registro'}`}
-              className="rounded-sm transition-transform hover:scale-125 cursor-default"
+              className="transition-transform hover:scale-125 cursor-default"
               style={{
                 width: 14,
                 height: 14,
@@ -155,15 +155,15 @@ export default function StudyDiary() {
             h ? MOODS.map((m) => (
               <div
                 key={m.value}
-                className="w-3 h-3 rounded-sm"
+                className="w-3 h-3"
                 style={{ background: getMoodColor(true, m.value) }}
                 title={m.label}
               />
             )) : [
               <div
                 key="none"
-                className="w-3 h-3 rounded-sm"
-                style={{ background: 'var(--bg-tertiary)', opacity: 0.35 }}
+                className="w-3 h-3"
+                style={{ background: '#EBEBEB', opacity: 0.35 }}
               />
             ]
           )}
@@ -215,16 +215,16 @@ export default function StudyDiary() {
                   key={m.value}
                   type="button"
                   onClick={() => setMood(m.value)}
-                  className="flex flex-col items-center gap-1 px-2 py-2 rounded-xl transition-all text-2xl"
+                  className="flex flex-col items-center gap-1 px-2 py-2 transition-all text-2xl"
                   style={{
-                    background: mood === m.value ? getMoodColor(true, m.value) + '30' : 'var(--bg-tertiary)',
-                    border: mood === m.value ? `2px solid ${getMoodColor(true, m.value)}` : '2px solid transparent',
+                    background: mood === m.value ? getMoodColor(true, m.value) + '30' : '#EBEBEB',
+                    border: mood === m.value ? `2px solid ${getMoodColor(true, m.value)}` : '2px solid #D0CCC4',
                     transform: mood === m.value ? 'scale(1.1)' : 'scale(1)',
                   }}
                   title={m.label}
                 >
                   {m.emoji}
-                  <span className="text-[10px] font-medium" style={{ color: 'var(--text-tertiary)' }}>
+                  <span className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
                     {m.label}
                   </span>
                 </button>

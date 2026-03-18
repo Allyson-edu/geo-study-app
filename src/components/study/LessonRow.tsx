@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, PenLine, Zap } from 'lucide-react'
+import { MapPin, PenLine } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface LessonRowProps {
@@ -28,7 +28,6 @@ export default function LessonRow({
 }: LessonRowProps) {
   const [notesOpen, setNotesOpen] = useState(false)
   const [notes, setNotes] = useState(initialNotes)
-  const [showXpAnim, setShowXpAnim] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-resize textarea
@@ -42,21 +41,18 @@ export default function LessonRow({
   function handleCheck() {
     if (completed || isLoading) return
     onComplete(notes || undefined)
-    setShowXpAnim(true)
-    setTimeout(() => setShowXpAnim(false), 1500)
   }
 
   return (
     <div className={cn('py-3 transition-opacity', completed ? 'opacity-70' : '')}>
       <div className="flex items-start gap-3">
-        {/* Checkbox animado */}
+        {/* Checkbox quadrado — Bauhaus */}
         <button
-          className={cn(
-            'mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all',
-            completed
-              ? 'bg-bigsur-green border-bigsur-green'
-              : 'border-[var(--border-color)] hover:border-bigsur-blue'
-          )}
+          className="mt-0.5 w-5 h-5 flex items-center justify-center shrink-0 transition-all"
+          style={{
+            border: completed ? '2px solid #1A4DAB' : '2px solid #D0CCC4',
+            background: completed ? '#1A4DAB' : 'transparent',
+          }}
           onClick={handleCheck}
           disabled={completed || isLoading}
           aria-label="Marcar como completo"
@@ -75,50 +71,47 @@ export default function LessonRow({
         </button>
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className={cn(
-              'text-sm text-[var(--text-primary)]',
-              completed ? 'line-through text-[var(--text-tertiary)]' : ''
-            )}>
-              {lesson.title}
-            </span>
+          <span
+            className="text-sm"
+            style={{
+              color: completed ? 'var(--text-muted)' : 'var(--text-primary)',
+              textDecoration: completed ? 'line-through' : 'none',
+            }}
+          >
+            {lesson.title}
+          </span>
 
-            {/* Badge XP */}
-            <div className="relative">
-              <span className="text-xs font-semibold text-bigsur-blue flex items-center gap-0.5">
-                <Zap size={10} /> +{lesson.xp_reward}
-              </span>
-              <AnimatePresence>
-                {showXpAnim && (
-                  <motion.span
-                    initial={{ opacity: 1, y: 0 }}
-                    animate={{ opacity: 0, y: -20 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute -top-4 left-0 text-xs font-bold text-bigsur-green whitespace-nowrap"
-                  >
-                    +{lesson.xp_reward} XP! 🎉
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {/* Botões de ação */}
+          {/* Botões de ação flat */}
           <div className="flex items-center gap-2 mt-1.5 flex-wrap">
             <button
-              className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg bg-bigsur-blue/10 text-bigsur-blue hover:bg-bigsur-blue/20 transition-colors"
+              className="flex items-center gap-1 text-xs px-2.5 py-1 transition-all"
+              style={{
+                background: '#F5F0E8',
+                border: '1px solid #1A1A1A',
+                color: '#1A4DAB',
+              }}
               onClick={onWhereToStudy}
             >
               <MapPin size={11} /> Onde estudar
             </button>
             <button
-              className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg bg-bigsur-purple/10 text-bigsur-purple hover:bg-bigsur-purple/20 transition-colors"
+              className="flex items-center gap-1 text-xs px-2.5 py-1 transition-all"
+              style={{
+                background: '#F5F0E8',
+                border: '1px solid #1A1A1A',
+                color: '#1A4DAB',
+              }}
               onClick={onPractice}
             >
               <PenLine size={11} /> Praticar
             </button>
             <button
-              className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              className="flex items-center gap-1 text-xs px-2.5 py-1 transition-all"
+              style={{
+                background: '#F5F0E8',
+                border: '1px solid #D0CCC4',
+                color: 'var(--text-secondary)',
+              }}
               onClick={() => setNotesOpen(!notesOpen)}
             >
               📝 Notas
@@ -139,7 +132,12 @@ export default function LessonRow({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Escreva suas notas aqui..."
-                  className="w-full min-h-[60px] resize-none bg-[var(--bg-tertiary)] text-[var(--text-primary)] text-xs rounded-xl p-3 border border-[var(--border-color)] focus:outline-none focus:ring-2 focus:ring-bigsur-blue/30 placeholder:text-[var(--text-tertiary)]"
+                  className="w-full min-h-[60px] resize-none text-xs p-3 outline-none"
+                  style={{
+                    background: '#F5F0E8',
+                    border: '2px solid #1A1A1A',
+                    color: 'var(--text-primary)',
+                  }}
                   rows={2}
                 />
               </motion.div>
@@ -149,7 +147,10 @@ export default function LessonRow({
 
         {/* Loading spinner */}
         {isLoading && (
-          <div className="shrink-0 w-4 h-4 border-2 border-bigsur-blue/30 border-t-bigsur-blue rounded-full animate-spin" />
+          <div
+            className="shrink-0 w-4 h-4 animate-spin"
+            style={{ border: '2px solid #EBEBEB', borderTop: '2px solid #1A4DAB' }}
+          />
         )}
       </div>
     </div>

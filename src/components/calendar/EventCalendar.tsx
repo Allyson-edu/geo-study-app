@@ -146,11 +146,11 @@ function AddEventModal({ onClose }: { onClose: () => void }) {
                   key={c}
                   type="button"
                   onClick={() => setColor(c)}
-                  className="w-7 h-7 rounded-full transition-transform"
+                  className="w-7 h-7 transition-transform"
                   style={{
                     background: c,
                     transform: color === c ? 'scale(1.25)' : 'scale(1)',
-                    boxShadow: color === c ? `0 0 10px ${c}88` : 'none',
+                    border: color === c ? `2px solid #1A1A1A` : '2px solid transparent',
                   }}
                 />
               ))}
@@ -289,16 +289,16 @@ export default function EventCalendar() {
                   <button
                     onClick={() => setFeatured(event.id)}
                     title="Definir como destaque"
-                    className="p-1.5 rounded-lg transition-colors"
-                    style={{ color: 'var(--text-tertiary)' }}
+                    className="p-1.5 transition-colors"
+                    style={{ color: 'var(--text-muted)' }}
                   >
                     <Star size={14} />
                   </button>
                   <button
                     onClick={() => removeEvent(event.id)}
                     title="Remover evento"
-                    className="p-1.5 rounded-lg transition-colors"
-                    style={{ color: 'var(--accent-pink)' }}
+                    className="p-1.5 transition-colors"
+                    style={{ color: '#D62B2B' }}
                   >
                     <Trash2 size={14} />
                   </button>

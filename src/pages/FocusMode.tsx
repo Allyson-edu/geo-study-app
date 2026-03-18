@@ -15,15 +15,15 @@ const FOCUS_MESSAGES = [
   'Mais um passo rumo a agosto de 2026! 🎓',
 ]
 
-// Partícula flutuante
+// Partícula flutuante — sutil, para o fundo escuro do FocusMode
 function Particle({ style }: { style: React.CSSProperties }) {
   return (
     <div
-      className="absolute rounded-full"
+      className="absolute"
       style={{
         width: 4,
         height: 4,
-        background: 'rgba(255,255,255,0.2)',
+        background: 'rgba(255,255,255,0.15)',
         animation: `float-particle ${3 + Math.random() * 4}s ease-in-out infinite`,
         animationDelay: `${Math.random() * 3}s`,
         ...style,
@@ -81,9 +81,12 @@ export default function FocusMode() {
   const seconds = timeLeft % 60
   const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
 
+  // Cor do timer: azul para foco, amarelo para pausa — cores Bauhaus sólidas
+  const timerColor = isBreak ? '#F5C400' : '#1A4DAB'
+
   // Partículas fixas para não re-renderizar
   const particles = useRef(
-    Array.from({ length: 20 }, (_, i) => ({
+    Array.from({ length: 16 }, (_, i) => ({
       id: i,
       top: `${Math.random() * 100}%`,
       left: `${Math.random() * 100}%`,
@@ -93,45 +96,38 @@ export default function FocusMode() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.98 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden select-none"
-        style={{
-          background: 'radial-gradient(ellipse at center, #16073A 0%, #0A0A0F 70%)',
-        }}
+        style={{ background: '#1A1A1A' }}
       >
-        {/* Partículas de fundo */}
+        {/* Partículas de fundo — sutis */}
         {particles.current.map((p) => (
           <Particle key={p.id} style={{ top: p.top, left: p.left }} />
         ))}
 
-        {/* Gradiente roxo sutil no centro */}
+        {/* Faixa amarela Bauhaus no topo */}
         <div
-          className="absolute pointer-events-none"
-          style={{
-            width: 500,
-            height: 500,
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(191,90,242,0.12) 0%, transparent 70%)',
-          }}
+          className="absolute top-0 left-0 right-0"
+          style={{ height: 4, background: '#F5C400' }}
         />
 
-        {/* Botão fechar */}
+        {/* Botão fechar — flat, borda branca */}
         <button
           onClick={() => navigate('/')}
-          className="absolute top-5 right-5 p-2.5 rounded-xl transition-colors z-10"
+          className="absolute top-5 right-5 p-2 transition-colors z-10 flex items-center justify-center"
           style={{
-            background: 'rgba(255,255,255,0.08)',
-            border: '1px solid rgba(255,255,255,0.12)',
-            color: 'rgba(255,255,255,0.5)',
+            background: 'transparent',
+            border: '2px solid rgba(255,255,255,0.3)',
+            color: 'rgba(255,255,255,0.6)',
           }}
           title="Fechar (Esc)"
         >
           <X size={18} />
         </button>
 
-        {/* Tópico */}
+        {/* Tópico de estudo */}
         <div className="mb-10 z-10">
           {editingTopic ? (
             <input
@@ -140,8 +136,12 @@ export default function FocusMode() {
               onChange={(e) => setTopic(e.target.value)}
               onBlur={() => setEditingTopic(false)}
               onKeyDown={(e) => e.key === 'Enter' && setEditingTopic(false)}
-              className="text-center text-base bg-transparent outline-none border-b text-white"
-              style={{ borderColor: 'rgba(191,90,242,0.5)', caretColor: '#BF5AF2' }}
+              className="text-center text-base bg-transparent outline-none"
+              style={{
+                color: '#FFFFFF',
+                borderBottom: '2px solid #F5C400',
+                caretColor: '#F5C400',
+              }}
             />
           ) : (
             <button
@@ -154,7 +154,7 @@ export default function FocusMode() {
           )}
         </div>
 
-        {/* Timer SVG circular */}
+        {/* Timer SVG — círculo geométrico intencional */}
         <div className="relative flex items-center justify-center z-10 mb-10">
           <svg
             width={240}
@@ -168,72 +168,67 @@ export default function FocusMode() {
               cy={120}
               r={radius}
               fill="none"
-              stroke="rgba(255,255,255,0.07)"
+              stroke="rgba(255,255,255,0.08)"
               strokeWidth={8}
             />
-            {/* Círculo de progresso */}
+            {/* Círculo de progresso — cor sólida Bauhaus, sem gradiente */}
             <circle
               cx={120}
               cy={120}
               r={radius}
               fill="none"
-              stroke="url(#timerGradient)"
+              stroke={timerColor}
               strokeWidth={8}
-              strokeLinecap="round"
+              strokeLinecap="butt"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
               style={{ transition: 'stroke-dashoffset 0.5s ease' }}
             />
-            <defs>
-              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#0A84FF" />
-                <stop offset="100%" stopColor="#BF5AF2" />
-              </linearGradient>
-            </defs>
           </svg>
 
-          {/* Tempo central */}
+          {/* Tempo central — tipografia gigante */}
           <div className="absolute flex flex-col items-center">
             <span
-              className="font-mono font-bold text-white"
-              style={{ fontSize: 52, letterSpacing: '-2px', lineHeight: 1 }}
+              className="font-mono font-bold"
+              style={{ fontSize: 52, letterSpacing: '-2px', lineHeight: 1, color: '#FFFFFF' }}
             >
               {timeStr}
             </span>
             <span
               className="text-xs uppercase tracking-widest mt-1"
-              style={{ color: isBreak ? '#FF9F0A' : 'rgba(255,255,255,0.4)' }}
+              style={{ color: isBreak ? '#F5C400' : 'rgba(255,255,255,0.4)' }}
             >
               {isBreak ? 'PAUSA' : 'FOCO'}
             </span>
           </div>
         </div>
 
-        {/* Controles */}
+        {/* Controles — flat, sem arredondamento */}
         <div className="flex items-center gap-4 z-10 mb-10">
           <motion.button
             onClick={() => (isRunning ? pause() : start())}
-            className="w-16 h-16 rounded-full flex items-center justify-center text-white"
+            className="w-16 h-16 flex items-center justify-center"
             style={{
-              background: 'var(--gradient-primary)',
-              boxShadow: 'var(--shadow-glow-blue)',
+              background: timerColor,
+              border: `2px solid ${timerColor}`,
+              color: isBreak ? '#1A1A1A' : '#FFFFFF',
             }}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.92 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             {isRunning ? <Pause size={26} /> : <Play size={26} />}
           </motion.button>
 
           <motion.button
             onClick={reset}
-            className="w-11 h-11 rounded-full flex items-center justify-center"
+            className="w-11 h-11 flex items-center justify-center"
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.12)',
+              background: 'transparent',
+              border: '2px solid rgba(255,255,255,0.25)',
               color: 'rgba(255,255,255,0.5)',
             }}
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.92 }}
+            whileTap={{ scale: 0.95 }}
           >
             <RotateCcw size={18} />
           </motion.button>

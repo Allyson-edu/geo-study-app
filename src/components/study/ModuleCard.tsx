@@ -34,7 +34,7 @@ export default function ModuleCard({
   progressPercent = 0,
   completedCount = 0,
   totalCount = 0,
-  disciplineColor = '#0A84FF',
+  disciplineColor = '#1A4DAB',
   onLessonClick,
   completedLessonIds = new Set(),
 }: ModuleCardProps) {
@@ -47,7 +47,7 @@ export default function ModuleCard({
     <motion.div
       layout
       className={cn(
-        'border overflow-hidden transition-all',
+        'overflow-hidden transition-all',
         isLocked ? 'opacity-50' : ''
       )}
       style={{
@@ -64,10 +64,10 @@ export default function ModuleCard({
         disabled={isLocked}
       >
         <div className="flex items-start gap-3">
-          {/* Ícone de status */}
+          {/* Ícone de status — quadrado, sem arredondamento */}
           <div
-            className="shrink-0 w-10 h-10 flex items-center justify-center text-xl"
-            style={{ background: `${disciplineColor}20`, border: `1px solid ${disciplineColor}` }}
+            className="shrink-0 w-10 h-10 flex items-center justify-center"
+            style={{ background: `${disciplineColor}20`, border: `2px solid ${disciplineColor}` }}
           >
             {isLocked ? <Lock size={18} style={{ color: disciplineColor }} />
               : isCompleted ? <CheckCircle2 size={18} style={{ color: disciplineColor }} />
@@ -76,32 +76,40 @@ export default function ModuleCard({
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-[var(--text-primary)] truncate">{module.title}</h3>
+              <h3 className="font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
+                {module.title}
+              </h3>
               <motion.div
                 animate={{ rotate: expanded ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
                 className="shrink-0 ml-2"
               >
-                {!isLocked && <ChevronDown size={16} className="text-[var(--text-tertiary)]" />}
+                {!isLocked && (
+                  <ChevronDown size={16} style={{ color: 'var(--text-muted)' }} />
+                )}
               </motion.div>
             </div>
 
             {module.description && (
-              <p className="text-xs text-[var(--text-secondary)] mt-0.5 truncate">{module.description}</p>
+              <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--text-secondary)' }}>
+                {module.description}
+              </p>
             )}
 
-            {/* Barra de progresso */}
+            {/* Barra de progresso flat */}
             <div className="mt-2 flex items-center gap-2">
-              <div className="flex-1 h-1.5 bg-[#EBEBEB] border border-[#D0CCC4] overflow-hidden">
+              <div
+                className="flex-1 overflow-hidden"
+                style={{ height: 6, background: '#EBEBEB', border: '1px solid #D0CCC4' }}
+              >
                 <motion.div
-                  className="h-full"
-                  style={{ background: disciplineColor }}
+                  style={{ height: '100%', background: disciplineColor }}
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercent}%` }}
                   transition={{ duration: 0.8, ease: 'easeOut' }}
                 />
               </div>
-              <span className="text-xs text-[var(--text-tertiary)] shrink-0">
+              <span className="text-xs shrink-0" style={{ color: 'var(--text-muted)' }}>
                 {completedCount}/{totalCount} aulas
               </span>
             </div>
@@ -119,44 +127,56 @@ export default function ModuleCard({
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="border-t border-[#D0CCC4] divide-y divide-[#D0CCC4]">
+            <div style={{ borderTop: '1px solid #D0CCC4' }}>
               {module.lessons.map((lesson) => (
                 <div
                   key={lesson.id}
-                  className={cn(
-                    'px-4 py-3 flex items-center gap-3',
-                    completedLessonIds.has(lesson.id) ? 'opacity-60' : ''
-                  )}
+                  className="px-4 py-3 flex items-center gap-3"
+                  style={{
+                    borderBottom: '1px solid #D0CCC4',
+                    opacity: completedLessonIds.has(lesson.id) ? 0.6 : 1,
+                  }}
                 >
-                  {/* Checkbox visual */}
+                  {/* Checkbox quadrado — Bauhaus */}
                   <div
-                    className={cn(
-                      'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0',
-                      completedLessonIds.has(lesson.id)
-                        ? 'border-transparent bg-[#1A4DAB]'
-                        : 'border-[#D0CCC4]'
-                    )}
+                    className="w-5 h-5 flex items-center justify-center shrink-0"
+                    style={{
+                      border: completedLessonIds.has(lesson.id)
+                        ? '2px solid #1A4DAB'
+                        : '2px solid #D0CCC4',
+                      background: completedLessonIds.has(lesson.id) ? '#1A4DAB' : 'transparent',
+                    }}
                   >
                     {completedLessonIds.has(lesson.id) && (
                       <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                        <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path
+                          d="M1 4L3.5 6.5L9 1"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     )}
                   </div>
 
-                  <span className="flex-1 text-sm text-[var(--text-primary)]">{lesson.title}</span>
+                  <span className="flex-1 text-sm" style={{ color: 'var(--text-primary)' }}>
+                    {lesson.title}
+                  </span>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs font-semibold text-[#1A4DAB]">+{lesson.xp_reward} XP</span>
-                    {onLessonClick && (
-                      <button
-                        className="text-xs px-2 py-1 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                        onClick={() => onLessonClick(lesson)}
-                      >
-                        Abrir
-                      </button>
-                    )}
-                  </div>
+                  {onLessonClick && (
+                    <button
+                      className="text-xs px-2 py-1 transition-all"
+                      style={{
+                        background: '#EBEBEB',
+                        border: '1px solid #1A1A1A',
+                        color: 'var(--text-secondary)',
+                      }}
+                      onClick={() => onLessonClick(lesson)}
+                    >
+                      Abrir
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

@@ -9,7 +9,7 @@ interface WhereToStudyProps {
   onClose: () => void
 }
 
-// Renderização com seções coloridas por tipo
+// Renderização de conteúdo — flat Bauhaus
 function StudyContent({ text }: { text: string }) {
   const lines = text.split('\n')
   return (
@@ -18,16 +18,11 @@ function StudyContent({ text }: { text: string }) {
         const formatted = line
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
           .replace(/\*(.*?)\*/g, '<em>$1</em>')
-
-        let className = 'text-sm text-white/70 leading-relaxed'
-        if (line.includes('YouTube') || line.startsWith('1.')) className += ' text-red-400 font-semibold'
-        if (line.includes('Plataforma') || line.startsWith('2.')) className += ' text-bigsur-blue font-semibold'
-        if (line.includes('extra') || line.startsWith('3.')) className += ' text-bigsur-green font-semibold'
-
         return (
           <p
             key={i}
-            className={className}
+            className="text-sm leading-relaxed"
+            style={{ color: 'var(--text-primary)' }}
             dangerouslySetInnerHTML={{ __html: formatted }}
           />
         )
@@ -63,29 +58,45 @@ export default function WhereToStudy({ lessonTitle, isOpen, onClose }: WhereToSt
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* Overlay — sem blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50"
+            style={{ background: 'rgba(26, 26, 26, 0.7)' }}
             onClick={onClose}
           />
 
+          {/* Modal flat Bauhaus */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-x-4 top-[10%] bottom-[5%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[560px] z-50 glass-dark rounded-2xl flex flex-col overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed inset-x-4 top-[10%] bottom-[5%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[560px] z-50 flex flex-col overflow-hidden"
+            style={{
+              background: '#FFFFFF',
+              border: '2px solid #1A1A1A',
+              boxShadow: '6px 6px 0 #1A1A1A',
+            }}
           >
             {/* Header */}
-            <div className="flex items-start justify-between p-5 border-b border-white/10 shrink-0">
+            <div
+              className="flex items-start justify-between p-5 shrink-0"
+              style={{ borderBottom: '2px solid #1A1A1A' }}
+            >
               <div>
-                <h2 className="font-bold text-white">📍 Onde estudar</h2>
-                <p className="text-xs text-white/50 mt-0.5">{lessonTitle}</p>
+                <h2 className="font-bold" style={{ color: '#1A1A1A' }}>📍 Onde estudar</h2>
+                <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{lessonTitle}</p>
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-white/10 text-white/70 hover:bg-white/20 transition-colors"
+                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 transition-all"
+                  style={{
+                    background: '#EBEBEB',
+                    border: '2px solid #1A1A1A',
+                    color: 'var(--text-primary)',
+                  }}
                   onClick={search}
                   disabled={loading}
                 >
@@ -93,7 +104,8 @@ export default function WhereToStudy({ lessonTitle, isOpen, onClose }: WhereToSt
                   Buscar novamente
                 </button>
                 <button
-                  className="p-1.5 rounded-lg bg-white/10 text-white/70 hover:bg-white/20"
+                  className="p-1.5"
+                  style={{ border: '2px solid #1A1A1A', color: 'var(--text-primary)' }}
                   onClick={onClose}
                 >
                   <X size={16} />
@@ -105,11 +117,16 @@ export default function WhereToStudy({ lessonTitle, isOpen, onClose }: WhereToSt
             <div className="flex-1 overflow-y-auto p-5">
               {loading ? (
                 <div className="flex flex-col items-center justify-center h-full gap-3">
-                  <div className="w-8 h-8 border-2 border-bigsur-blue/30 border-t-bigsur-blue rounded-full animate-spin" />
-                  <p className="text-sm text-white/50">Buscando os melhores recursos...</p>
+                  <div
+                    className="w-8 h-8 animate-spin"
+                    style={{ border: '3px solid #EBEBEB', borderTop: '3px solid #1A4DAB' }}
+                  />
+                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    Buscando os melhores recursos...
+                  </p>
                 </div>
               ) : error ? (
-                <div className="text-center text-red-400 text-sm">{error}</div>
+                <div className="text-center text-sm" style={{ color: '#D62B2B' }}>{error}</div>
               ) : (
                 <StudyContent text={content} />
               )}
