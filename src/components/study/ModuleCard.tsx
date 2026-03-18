@@ -47,10 +47,15 @@ export default function ModuleCard({
     <motion.div
       layout
       className={cn(
-        'rounded-2xl border border-[var(--border-color)] overflow-hidden transition-all',
-        isLocked ? 'opacity-50' : 'glass'
+        'border overflow-hidden transition-all',
+        isLocked ? 'opacity-50' : ''
       )}
-      whileHover={isLocked ? {} : { y: -2, boxShadow: `0 8px 32px ${disciplineColor}20` }}
+      style={{
+        background: '#FFFFFF',
+        border: '2px solid #1A1A1A',
+        boxShadow: isLocked ? 'none' : '3px 3px 0 #1A1A1A',
+      }}
+      whileHover={isLocked ? {} : { x: -1, y: -1, boxShadow: `4px 4px 0 #1A1A1A` }}
     >
       {/* Cabeçalho do card */}
       <button
@@ -61,8 +66,8 @@ export default function ModuleCard({
         <div className="flex items-start gap-3">
           {/* Ícone de status */}
           <div
-            className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-            style={{ background: `${disciplineColor}20` }}
+            className="shrink-0 w-10 h-10 flex items-center justify-center text-xl"
+            style={{ background: `${disciplineColor}20`, border: `1px solid ${disciplineColor}` }}
           >
             {isLocked ? <Lock size={18} style={{ color: disciplineColor }} />
               : isCompleted ? <CheckCircle2 size={18} style={{ color: disciplineColor }} />
@@ -87,9 +92,9 @@ export default function ModuleCard({
 
             {/* Barra de progresso */}
             <div className="mt-2 flex items-center gap-2">
-              <div className="flex-1 h-1.5 bg-[var(--bg-tertiary)] rounded-full overflow-hidden">
+              <div className="flex-1 h-1.5 bg-[#EBEBEB] border border-[#D0CCC4] overflow-hidden">
                 <motion.div
-                  className="h-full rounded-full"
+                  className="h-full"
                   style={{ background: disciplineColor }}
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercent}%` }}
@@ -114,7 +119,7 @@ export default function ModuleCard({
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="border-t border-[var(--border-color)] divide-y divide-[var(--border-color)]">
+            <div className="border-t border-[#D0CCC4] divide-y divide-[#D0CCC4]">
               {module.lessons.map((lesson) => (
                 <div
                   key={lesson.id}
@@ -128,8 +133,8 @@ export default function ModuleCard({
                     className={cn(
                       'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0',
                       completedLessonIds.has(lesson.id)
-                        ? 'border-transparent bg-bigsur-green'
-                        : 'border-[var(--border-color)]'
+                        ? 'border-transparent bg-[#1A4DAB]'
+                        : 'border-[#D0CCC4]'
                     )}
                   >
                     {completedLessonIds.has(lesson.id) && (
@@ -142,7 +147,7 @@ export default function ModuleCard({
                   <span className="flex-1 text-sm text-[var(--text-primary)]">{lesson.title}</span>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs font-semibold text-bigsur-blue">+{lesson.xp_reward} XP</span>
+                    <span className="text-xs font-semibold text-[#1A4DAB]">+{lesson.xp_reward} XP</span>
                     {onLessonClick && (
                       <button
                         className="text-xs px-2 py-1 rounded-lg bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
